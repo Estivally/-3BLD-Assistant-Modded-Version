@@ -179,3 +179,19 @@
 - **`verify_rebuild.py` 要在 `D:\Program\dsh\rebuild` 下跑**（按相对路径读 `original.apk`）。
 - 版本号在 `src/apktool.yml` 的 `versionInfo:` 下（两格缩进）：`versionCode: 116` / `versionName: 6.3.0`。
 - **混合 tab = 随机练习**（2026-10-22 追加）：池 = 当前源里 `box>0` 的卡（角+棱），一张都没有就退回全部；`Collections.shuffle` 洗牌，不看 dueAt、不吃每日新卡额度；一轮内同一张卡不重复（`cat == CAT_MIXED` 时跳过 requeue）；空态按钮变成「再抽一批」重新洗牌。角块/棱块 tab 仍走 SRS 调度。
+
+## 13. 2026-10-22 新增规则（git 仓库与推送）
+
+- **仓库位置**：`D:\Program\WorkBuddy\三盲助手`（工作区，不是反编译工程 `D:\Program\dsh\rebuild`）。分支 `main`，remote `origin` = `ssh://git@ssh.github.com:443/Estivally/-3BLD-Assistant-Modded-Version.git`，网页 https://github.com/Estivally/-3BLD-Assistant-Modded-Version 。
+- **必须走 `ssh.github.com:443`**：本机 hosts 把 `github.com` 改写到 127.0.0.1（Steam302 反代），`github.com:22` 连不上；HTTPS 上存的老 token 已失效（`Bad credentials`，GitHub 也不再接受密码推送）→ **不要改回 HTTPS**。SSH 公钥 `C:\Users\Estiavl\.ssh\id_rsa.pub` 已登记在 Estivally 账号。
+- **日常推送三步**：`cd D:\Program\WorkBuddy\三盲助手` → `git add -A; git commit -m "说明"; git push`。报 `Permission denied (publickey)` = 公钥不在账号里；报 `Repository not found` = 仓库名/账号不对。
+- **入库范围 = 文档 + 源码快照**：`docs/`（REPORT/PLAN/优化报告 + `docs/memory/`）、`source/{java,build,tools,assets,res}`。成品 APK、`dist/`、构建中间产物、图片素材一律不入库。
+- **根目录的报告是工作副本**：`.gitignore` 里 `/REPORT-*.md`、`/PLAN-*.md`、`/开发计划.md`、`/APK优化*.md`、`/APK替换-核验报告.md`、`/深色模式-对照表.md` 已排除，**仓库以 `docs/` 下的副本为准** → 新写完报告要同步一份到 `docs/`。
+- **`.gitignore` 里的 `build/` 必须写成 `/build/`**，否则 `source/build/` 那 6 个构建脚本会被一起忽略（第一次提交就踩了这个坑，靠 `git ls-files source/build/*` 空结果发现）。
+- **源码快照同步口径**（改了工程要照此拷一遍再提交）：
+  - `src_java\zd\**` → `source\java\zd\**`
+  - `rebuild\tools\*.py` → `source\tools\`
+  - `rebuild\{build_java.sh,install_java_smali.sh,build_lx.sh,verify_rebuild.py,make_alg818_assets.py,rebuild.sh}` → `source\build\`
+  - `rebuild\src\assets\{alg818.txt,alg818_qm.txt,qm_readme.txt,segment_trend.html}` → `source\assets\`
+  - 改动过的 `src\res\layout\*`、`src\res\drawable\*`、`src\res\values\strings.xml` → `source\res\...`
+- 提交前自查：`git status --short` 应为空；`git ls-files | Measure-Object` 应≈88（新增文件会变多）；确认没有 `.apk` 被带进索引。
