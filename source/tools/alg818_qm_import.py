@@ -51,6 +51,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 import openpyxl
+from openpyxl.cell.rich_text import CellRichText, TextBlock
 
 # --------------------------------------------------------------------------- #
 # 路径
@@ -114,6 +115,115 @@ def norm_text(s) -> str:
 def loose(s: str) -> str:
     """公式比对用：去空白。"""
     return norm_text(s).replace(" ", "")
+
+
+# --------------------------------------------------------------------------- #
+# 公式配色：xlsx 富文本 → 逐字符角色掩码
+# --------------------------------------------------------------------------- #
+# 说明页图例：蓝色=消步合并部分 红色=交换步骤部分 紫色=直达层部分 黑色=setup 部分
+# 掩码用单个字符表示每个字符的角色，与公式文本逐字符对齐（空格一律记 setup）。
+ROLE_SETUP = "0"     # 黑：setup / 收尾
+ROLE_EXCH = "1"      # 红：交换步骤
+ROLE_LAYER = "2"     # 紫：直达层
+ROLE_MERGE = "3"     # 蓝：消步合并
+ROLE_OTHER = "4"     # 其它颜色（橙=提示等）
+
+_COLOR_ROLE = {
+    "FFFF0000": ROLE_EXCH,
+    "FF7030A0": ROLE_LAYER,
+    "FF00B0F0": ROLE_MERGE,
+    "FFE26B0A": ROLE_OTHER,
+    "FF000000": ROLE_SETUP,
+    "FFFFFFFF": ROLE_SETUP,
+}
+
+
+def normalize_with_mask(raw: str, mask: str) -> Tuple[str, str]:
+    """按 norm_text 的规则归一公式，同时把逐字符掩码一起搬（保证对齐）。"""
+    if not raw:
+        return "", ""
+    if not mask or len(mask) != len(raw):
+        mask = ROLE_SETUP * len(raw)
+    out_t: List[str] = []
+    out_m: List[str] = []
+    pending_space = False
+    for i, ch in enumerate(raw):
+        ch = ch.translate(_QUOTES)
+        if ch in " \u3000\t\r\n":
+            pending_space = True
+            continue
+        if pending_space and out_t:
+            out_t.append(" ")
+            out_m.append(ROLE_SETUP)
+        pending_space = False
+        out_t.append(ch)
+        out_m.append(mask[i])
+    return "".join(out_t), "".join(out_m)
+
+
+def _run_mask(v) -> Tuple[str, str]:
+    """富文本单元格 → (原文, 掩码)。"""
+    raw_parts: List[str] = []
+    mask_parts: List[str] = []
+    for b in v:
+        if isinstance(b, TextBlock):
+            txt = b.text or ""
+            rgb = None
+            try:
+                if b.font is not None and b.font.color is not None:
+                    rgb = b.font.color.rgb
+            except Exception:
+                rgb = None
+            if isinstance(rgb, str):
+                role = _COLOR_ROLE.get(rgb.upper(), ROLE_OTHER)
+            else:
+                role = ROLE_SETUP
+            raw_parts.append(txt)
+            mask_parts.append(role * len(txt))
+        else:
+            txt = str(b)
+            raw_parts.append(txt)
+            mask_parts.append(ROLE_SETUP * len(txt))
+    return "".join(raw_parts), "".join(mask_parts)
+
+
+def parse_colors(path: str, report: dict) -> Dict[str, str]:
+    """扫公式页（公式 / 备选 两列）的富文本，返回 {归一公式文本: 掩码}。"""
+    wb = openpyxl.load_workbook(path, rich_text=True)
+    out: Dict[str, str] = {}
+    stat = {"cells": 0, "rich": 0, "plain": 0, "masked": 0}
+    for ws in wb.worksheets:
+        if ws.title in SKIP_SHEETS:
+            continue
+        rows = list(ws.iter_rows())
+        if not rows:
+            continue
+        hdr = [norm_text(c.value) for c in rows[0]]
+        cols = [hdr.index(n) for n in ("公式", "备选") if n in hdr]
+        if not cols:
+            continue
+        for row in rows[1:]:
+            for ci in cols:
+                if ci >= len(row):
+                    continue
+                v = row[ci].value
+                if v is None:
+                    continue
+                stat["cells"] += 1
+                if not isinstance(v, CellRichText):
+                    stat["plain"] += 1
+                    continue
+                stat["rich"] += 1
+                raw, mask = _run_mask(v)
+                text, m = normalize_with_mask(raw, mask)
+                if not text:
+                    continue
+                if m.count(ROLE_SETUP) != len(m):
+                    stat["masked"] += 1
+                if text not in out:
+                    out[text] = m
+    report.setdefault("colors", {})[os.path.basename(path)] = stat
+    return out
 
 
 def is_placeholder(s: str) -> bool:
@@ -539,6 +649,15 @@ def main(argv=None) -> int:
     # ---- xlsx ----
     edge_rows = parse_workbook(XLSX_EDGE, "E", report)
     corner_rows = parse_workbook(XLSX_CORNER, "C", report)
+
+    # ---- 公式配色（富文本 → 逐字符掩码）----
+    colors: Dict[str, str] = {}
+    for p in (XLSX_EDGE, XLSX_CORNER):
+        colors.update(parse_colors(p, report))
+    say("公式配色: " + "  ".join(
+        f"{os.path.basename(k)} 公式格 {v['cells']}（富文本 {v['rich']} / 纯文本 {v['plain']}，"
+        f"多色 {v['masked']}）" for k, v in report["colors"].items())
+        + f"；可用掩码 {len(colors)} 条")
     edge_cases = merge(edge_rows, "E", report)
     corner_cases = merge(corner_rows, "C", report)
     cases = {"C": corner_cases, "E": edge_cases}
@@ -738,6 +857,7 @@ def main(argv=None) -> int:
 
     # ---- 写文件 ----
     lines = []
+    masked = 0
     key_re = {"C": re.compile(r"^J[A-Z]{2}$"), "E": re.compile(r"^G[A-Z]{2}$")}
     for t in ("C", "E"):
         for c in sorted(cases[t].values(), key=lambda x: keyed[(x.type, x.code)]):
@@ -746,7 +866,17 @@ def main(argv=None) -> int:
                 print(f"[FATAL] KEY 不合法: {k!r} ({t} {c.code})", file=sys.stderr)
                 return 4
             cat = "|".join(c.cats)
-            fields = [t, k, cat, c.hand, c.comm, c.note, c.alg, c.alt, c.alt_comm]
+            m_alg = colors.get(c.alg, "")
+            m_alt = colors.get(c.alt, "") if c.alt else ""
+            if m_alg and len(m_alg) != len(c.alg):
+                problems.append(f"掩码长度不符 {c.code}: {len(m_alg)} != {len(c.alg)}")
+                m_alg = ""
+            if m_alt and len(m_alt) != len(c.alt):
+                problems.append(f"备选掩码长度不符 {c.code}: {len(m_alt)} != {len(c.alt)}")
+                m_alt = ""
+            if m_alg:
+                masked += 1
+            fields = [t, k, cat, c.hand, c.comm, c.note, c.alg, c.alt, c.alt_comm, m_alg, m_alt]
             for i, v in enumerate(fields):
                 if "\t" in v or "\n" in v or "\r" in v:
                     print(f"[FATAL] 字段含控制字符: {c.code} idx={i}", file=sys.stderr)
@@ -757,10 +887,10 @@ def main(argv=None) -> int:
 
     field_dist = Counter(len(l.split("\t")) for l in lines)
     say(f"\n-- 输出 -- {len(lines)} 行, {len(blob)} 字节, 字段数分布 {dict(field_dist)}, "
-        f"sha256={hashlib.sha256(blob).hexdigest()[:16]}")
+        f"带配色掩码 {masked} 行, sha256={hashlib.sha256(blob).hexdigest()[:16]}")
     if len(lines) != 818:
         problems.append(f"行数 {len(lines)} != 818")
-    if set(field_dist) != {9}:
+    if set(field_dist) != {11}:
         problems.append(f"字段数分布异常 {dict(field_dist)}")
 
     if not args.check:

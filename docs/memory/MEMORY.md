@@ -204,3 +204,14 @@
 - **模拟器点系统文件选择器（DocumentsUI）用 DPAD，不要猜坐标**：`input keyevent KEYCODE_DPAD_DOWN` 逐项移动（会有高亮框可以截图确认）+ `KEYCODE_ENTER` 选中，一次就成；按 `uiautomator dump` 的 bounds 直接 tap 常常落空（本机偏差 60–100px，方向还不固定）。
 - **底部一排等宽按钮的 x 中心点容易点错**：文案变长后「恢复默认图」和「保存修改」只差约 30px，点击前先按截图量一遍像素区间再 tap。
 - `ImageView` 要接点击必须显式 `clickable="true"`（+ `?selectableItemBackgroundBorderless` 给水波纹），否则 `setOnClickListener` 形同虚设。
+
+## 15. 2026-10-22 新增规则（公式配色 / 掩码资产）
+
+- **配色口径来自 xlsx 富文本，不要自己按语义猜**：`openpyxl.load_workbook(path, rich_text=True)` → 值是 `CellRichText` 时逐 `TextBlock` 取 `text` + `font.color.rgb`；不是所有公式格都有富文本（棱块 2260 格中 430 格、角块 1605 格中 378 格）。
+- 图例（浅梦「说明」B4）：红 `FF0000`=交换步骤、紫 `FF7030A0`=直达层、蓝 `FF00B0F0`=消步合并、黑=setup、橙 `FFE26B0A`=提示（编码列橙色=备选第一条为优解，忽略）。**颜色按角色分段、不按字母**（同一字母在不同 case 可能是黑或紫）。
+- 掩码与文本必须**同规则归一**：`normalize_with_mask()` 与 `norm_text()` 用同一套（撇号翻译、全角/制表/换行→空格、空白折叠、去首尾）逐字符搬，否则长度对不上就只能丢弃。
+- `alg818_qm.txt` 现为 11 字段（第 10/11 = ALG/ALT 的逐字符角色掩码）；改动字段数时同步改断言 `{11}` 与 Java `parseQm` 的 `f[9]/f[10]`。
+- 客户端一律走 `AlgColor`：浅梦用掩码、自定义/无掩码用 `maskFromComm` 从 `C:[A,B]` 推导、内置无数据就全默认色（role 0 不上色 → 深色主题自动跟随文字色）。
+- **`job_kill` 杀 pwsh 包装进程后，bash 子进程仍在跑**：会继续往 `src/smali` 拷文件但不登记 `tmp/java_owned.txt` → 下次 `install_java_smali.sh` 报「与 App 原有类同名」中止。补登记那几行即可，**不要** `JAVA_SMALI_TAKEOVER=1`。
+- 模拟器：底部 tab 真实 x = 记忆 132 / 读码 326 / 打乱 541 / 计时 784 / 其他 985（y≈1930）；`uiautomator dump` 在计时页等有动画页面会报 `could not get idle state` 并返回**旧窗口**层级 → 验证以 `screencap` 为准。
+- 查找键规则：浅梦 `q+类型字母+2字母码`（`qCAR`）、内置 3 字母（`JAR`）、自定义 `c+类型+码`。

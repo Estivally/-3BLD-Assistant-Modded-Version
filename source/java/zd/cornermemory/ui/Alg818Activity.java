@@ -137,14 +137,21 @@ public class Alg818Activity extends BaseActivity {
         final String note;
         final int rec;
         final String[] algs;
+        /** 与 algs 一一对应的逐字符颜色掩码（浅梦源来自 xlsx 富文本，其余为空串→按交换子推导） */
+        final String[] masks;
 
         Case(String key, String type, int rec, String[] algs) {
             this(key, type, key.length() >= 3 ? key.substring(1) : key,
-                    "", "", "", "", rec, algs);
+                    "", "", "", "", rec, algs, null);
         }
 
         Case(String key, String type, String code, String cat, String hand,
              String comm, String note, int rec, String[] algs) {
+            this(key, type, code, cat, hand, comm, note, rec, algs, null);
+        }
+
+        Case(String key, String type, String code, String cat, String hand,
+             String comm, String note, int rec, String[] algs, String[] masks) {
             this.key = key;
             this.type = type;
             this.code = code;
@@ -154,6 +161,16 @@ public class Alg818Activity extends BaseActivity {
             this.note = note == null ? "" : note;
             this.rec = rec;
             this.algs = algs;
+            this.masks = masks;
+        }
+
+        /** 第 i 条公式的颜色掩码（没有就返回空串） */
+        String mask(int i) {
+            if (masks == null || i < 0 || i >= masks.length) {
+                return "";
+            }
+            String m = masks[i];
+            return m == null ? "" : m;
         }
 
         /** 联想词用的两字母编码（自定义集可能写 3 字母带缓冲位，取后两位） */
@@ -180,6 +197,8 @@ public class Alg818Activity extends BaseActivity {
     private int done = 0;
     private int emptyMore = 0;
     private boolean revealed = false;
+    /** 公式配色（红=交换步骤 / 紫=直达层 / 蓝=消步合并 / 黑=setup） */
+    private AlgColor.Palette palette;
     private boolean expanded = false;
 
     /** 当前公式源：builtin / qm / custom */
@@ -723,7 +742,7 @@ public class Alg818Activity extends BaseActivity {
         return new Case(f[1], f[0], parseInt(f[2], -1), algs);
     }
 
-    /** 浅梦集：TYPE \t KEY \t CAT \t HAND \t COMM \t NOTE \t ALG \t ALT \t ALT_COMM */
+    /** 浅梦集：TYPE \t KEY \t CAT \t HAND \t COMM \t NOTE \t ALG \t ALT \t ALT_COMM \t MASK \t ALT_MASK */
     private Case parseQm(String[] f) {
         if (f.length < 7) {
             return null;
@@ -734,11 +753,14 @@ public class Alg818Activity extends BaseActivity {
         String alt = f.length > 7 ? f[7] : "";
         boolean hasAlt = alt != null && alt.length() > 0;
         String[] algs = new String[hasAlt ? 2 : 1];
+        String[] masks = new String[algs.length];
         algs[0] = f[6];
+        masks[0] = f.length > 9 ? f[9] : "";
         if (hasAlt) {
             algs[1] = alt;
+            masks[1] = f.length > 10 ? f[10] : "";
         }
-        return new Case("q" + type + code, type, code, f[2], f[3], f[4], f[5], 0, algs);
+        return new Case("q" + type + code, type, code, f[2], f[3], f[4], f[5], 0, algs, masks);
     }
 
     /**
@@ -1248,8 +1270,8 @@ public class Alg818Activity extends BaseActivity {
         row.addView(idx, new LinearLayout.LayoutParams(dp(20), LinearLayout.LayoutParams.WRAP_CONTENT));
 
         TextView tv = new TextView(this);
-        // 交换子在公式里的位置高亮（token 级最长连续匹配，命中 ≥3 才上色）
-        tv.setText(AlgHighlight.decorate(alg, c.comm, colorAttr("app_colorPrimary", 0xFF4F46E5)));
+        // 照搬浅梦公式集配色：红=交换步骤 / 紫=直达层 / 蓝=消步合并 / 黑=setup
+        tv.setText(AlgColor.decorate(alg, c.mask(index), c.comm, palette()));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         tv.setTextColor(colorAttr("app_text_primary", 0xFF111827));
         tv.setTypeface(Typeface.MONOSPACE);
@@ -1364,8 +1386,7 @@ public class Alg818Activity extends BaseActivity {
         if (c.note.length() > 0) {
             sb.append('\n').append(fmt1(str("alg818_qm_note"), c.note));
         }
-        tvMeta.setText(AlgHighlight.decorateComm(sb.toString(), c.comm,
-                colorAttr("app_colorPrimary", 0xFF4F46E5)));
+        tvMeta.setText(AlgColor.decorateCommWithin(sb.toString(), c.comm, palette()));
     }
 
     private String levelName(int box) {
@@ -2006,6 +2027,13 @@ public class Alg818Activity extends BaseActivity {
 
     private int dp(int v) {
         return (int) (v * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    private AlgColor.Palette palette() {
+        if (palette == null) {
+            palette = AlgColor.palette(this);
+        }
+        return palette;
     }
 
     private int colorAttr(String name, int fallback) {
