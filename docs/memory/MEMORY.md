@@ -195,3 +195,12 @@
   - `rebuild\src\assets\{alg818.txt,alg818_qm.txt,qm_readme.txt,segment_trend.html}` → `source\assets\`
   - 改动过的 `src\res\layout\*`、`src\res\drawable\*`、`src\res\values\strings.xml` → `source\res\...`
 - 提交前自查：`git status --short` 应为空；`git ls-files | Measure-Object` 应≈88（新增文件会变多）；确认没有 `.apk` 被带进索引。
+
+## 14. 2026-10-22 新增规则（批量编辑页换图 / 模拟器操作）
+
+- **联想图的自定义 = SP `<code>_LXPIC` 存路径 + 托管目录里的文件**：写图走 `LxPicStorageUtils.saveCustomImageFromBytes(ctx, code, bytes)`（落到 `files/lx_pic_custom/<code>_<ts>.jpg`），删图只删**托管目录内**的（`isManagedLocalPath` 判定），用户从图库选的外部路径一律不删。改图/清图后发 `lx_asset_updated` 广播，联想页与记忆页下次刷新即生效。
+- **批量编辑页的编辑模型是「内存暂存 + 统一保存」**：词的改动、图的改动（`pendingPic` 字节 / `picCleared` 标记）都只挂在 `Row` 上，点「保存修改」才落盘；`picDirty` 是提交开关。新增编辑能力时沿用这个模型，不要一改就写。
+- **「恢复默认 X」按可见行统计**：`confirmResetPics()` 只数 `visibleRows` 里真有自定义图的行，弹窗文案带真实行数；搜索过滤后再点只影响过滤结果。用户机器上可能有几百个编码都有自定义图（批量导入过资源包），弹窗报 500+ 是真实数据，**不要当成 bug 去修**。
+- **模拟器点系统文件选择器（DocumentsUI）用 DPAD，不要猜坐标**：`input keyevent KEYCODE_DPAD_DOWN` 逐项移动（会有高亮框可以截图确认）+ `KEYCODE_ENTER` 选中，一次就成；按 `uiautomator dump` 的 bounds 直接 tap 常常落空（本机偏差 60–100px，方向还不固定）。
+- **底部一排等宽按钮的 x 中心点容易点错**：文案变长后「恢复默认图」和「保存修改」只差约 30px，点击前先按截图量一遍像素区间再 tap。
+- `ImageView` 要接点击必须显式 `clickable="true"`（+ `?selectableItemBackgroundBorderless` 给水波纹），否则 `setOnClickListener` 形同虚设。

@@ -1011,11 +1011,12 @@
     <string name="lx_batch_help_title">"格式说明"</string>
     <string name="lx_batch_help_body">"【Anki 牌组 .apkg】\n· 只支持旧版格式（Anki 2.1.49 及更早导出）。\n· 新版 Anki 默认导出 zstd 压缩包，读不了。请在 Anki 里导出时勾选「支持旧版 Anki」，再选新文件。\n· 编码：取笔记里第一个能识别的字母（A–Z，不含 U、V）。\n· 联想词：取其余字段里最长的一段文字。\n· 图片：取第一个 img 标签。\n· 字段名不限，正面/背面、Front/Back 都能认。\n\n【CSV / TSV 词表】\n· 每行三列：编码,联想词,图片文件名（第三列可省略）。\n· 第一行表头可有可无，会自动跳过（编码、联想词、word 等）。\n· 编码不区分大小写。\n· 用 Excel 编辑后请存成「CSV UTF-8」，否则中文会乱码。\n示例：\nAA,苹果\nAB,蚂蚁,AB.jpg\n\n【ZIP 图片包】\n· 压缩包里放图片，文件名就是编码：AA.jpg、AB.png、AC.webp\n· 可以同时放一个 words.csv（格式同上），图和词一次导入。\n· 支持 jpg / png / webp / gif / bmp。导入后统一转成 JPEG（最长边 1280、质量 85），PNG 的透明部分会丢失。\n\n【文件夹】\n· 选手机里一个文件夹，规则和 ZIP 一样：按文件名匹配编码，也可以带一个 CSV。\n\n【通用】\n· 编码范围 A–Z（不含 U、V），共 24 个。\n· 只覆盖文件里出现的内容；没提到的联想词和图片保持原样。\n· 导出 CSV 会同时生成同名 .zip，可以直接用「ZIP 图片包」导回来。"</string>
 
-    <!-- ============ opt21：批量编辑联想词 ============ -->
-    <string name="lx_batch_edit_title">批量编辑联想词</string>
+    <!-- ============ opt21：批量编辑联想词 / 联想图 ============ -->
+    <string name="lx_batch_edit_title">批量编辑联想词·图</string>
     <string name="lx_batch_edit_search_hint">搜索编码或联想词</string>
     <string name="lx_batch_edit_replace_action">批量替换</string>
-    <string name="lx_batch_edit_reset_all">全部恢复默认</string>
+    <string name="lx_batch_edit_reset_all">恢复默认词</string>
+    <string name="lx_batch_edit_reset_pics">恢复默认图</string>
     <string name="lx_batch_edit_save">保存修改</string>
     <string name="lx_batch_edit_empty">词表未初始化，无法编辑</string>
     <string name="lx_batch_edit_saved">已保存 %d 处修改</string>
@@ -1039,9 +1040,22 @@
     <string name="lx_batch_edit_replace_none">没有匹配的行</string>
     <string name="lx_batch_edit_replace_apply">替换</string>
     <string name="lx_batch_edit_replace_applied">已替换 %d 行，记得点「保存修改」生效</string>
-    <string name="lx_batch_edit_manage_action">批量编辑联想词</string>
-    <string name="lx_batch_edit_manage_desc">表格化修改、查找替换、恢复默认</string>
+    <string name="lx_batch_edit_manage_action">批量编辑联想词·图</string>
+    <string name="lx_batch_edit_manage_desc">表格化改词、换图、恢复默认</string>
     <string name="lx_batch_edit_manage_badge">词</string>
+
+    <!-- 批量编辑：联想图（点行内缩略图换图，统一保存） -->
+    <string name="lx_batch_edit_pic_desc">修改联想图</string>
+    <string name="lx_batch_edit_pic_title">联想图</string>
+    <string name="lx_batch_edit_pic_pick">选择图片</string>
+    <string name="lx_batch_edit_pic_clear">清除自定义图</string>
+    <string name="lx_batch_edit_pic_picked">已选好图片，点「保存修改」生效</string>
+    <string name="lx_batch_edit_pic_cleared">已清除 %s 的自定义图，点「保存修改」生效</string>
+    <string name="lx_batch_edit_pic_fail">图片读取失败</string>
+    <string name="lx_batch_edit_pic_reset_title">恢复默认图</string>
+    <string name="lx_batch_edit_pic_reset_msg">把当前列表里 %d 行的自定义图恢复成内置图（点「保存修改」后生效），确定吗？</string>
+    <string name="lx_batch_edit_pic_reset_done">已标记 %d 行恢复默认图，记得点「保存修改」生效</string>
+    <string name="lx_batch_edit_pic_reset_none">当前列表没有自定义图</string>
 
     <!-- opt22：分段计时趋势图（成绩页 toolbar 右侧入口 + WebView 页面） -->
     <string name="segment_trend_title">分段趋势</string>
