@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 公式集管理页：自定义公式集多套（命名 / 切换 / 删除）。
+     列表行由 Java 动态拼（Alg818SetListActivity），这里只留容器与底部按钮。 -->
+<RelativeLayout android:orientation="vertical" android:background="@drawable/background_page_gradient" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <zd.cornermemory.view.CustomToolbar android:id="@id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:toolbarTitle="@string/alg818_set_title" />
+
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/toolbar_height" android:paddingStart="@dimen/spacing_md" android:paddingEnd="@dimen/spacing_md">
+
+        <TextView android:textSize="@dimen/fw_text_12" android:textColor="?attr/app_text_secondary" android:id="@+id/alg818_set_head" android:paddingTop="@dimen/fw_space_8" android:paddingBottom="@dimen/fw_space_4" android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <ScrollView android:id="@+id/alg818_set_scroll" android:layout_width="match_parent" android:layout_height="0.0dp" android:layout_weight="1.0" android:layout_marginTop="@dimen/spacing_sm" android:fillViewport="true" android:scrollbars="none">
+            <LinearLayout android:orientation="vertical" android:id="@+id/alg818_set_body" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="@dimen/spacing_lg" />
+        </ScrollView>
+
+        <TextView android:textSize="@dimen/fw_text_13" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/alg818_set_empty" android:layout_width="match_parent" android:layout_height="0.0dp" android:layout_weight="1.0" android:lineSpacingExtra="@dimen/fw_space_2" android:visibility="gone" />
+
+        <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@+id/alg818_set_import" android:background="@drawable/timer_input_confirm_bg" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="@dimen/fw_size_48" android:layout_marginTop="@dimen/spacing_sm" android:layout_marginBottom="@dimen/spacing_md" android:text="@string/alg818_set_import" />
+    </LinearLayout>
+</RelativeLayout>

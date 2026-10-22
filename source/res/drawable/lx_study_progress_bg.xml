@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt23：学习页顶部细进度条。只做颜色位引用，不做 android:drawable="?attr/..."（会崩）。 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/app_lit_bg_1a000000" />
+            <corners android:radius="@dimen/fw_radius_2" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="?attr/app_colorPrimary" />
+                <corners android:radius="@dimen/fw_radius_2" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

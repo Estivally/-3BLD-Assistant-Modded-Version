@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt22：分段趋势入口图标（项目原本没有图表类图标）。
+     三条柱 + 底部基线，配色跟随 toolbar 文字色（?attr 只能出现在 color 位置，见既有 ic_* 用法）。 -->
+<vector android:height="@dimen/fw_draw_24" android:width="@dimen/fw_draw_24" android:viewportWidth="24.0" android:viewportHeight="24.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?attr/app_bar_text" android:pathData="M3.5,19.4h17v1.6h-17z" />
+    <path android:fillColor="?attr/app_bar_text" android:pathData="M5.6,17.6V11.4h2.8v6.2z" />
+    <path android:fillColor="?attr/app_bar_text" android:pathData="M10.6,17.6V6.6h2.8v11z" />
+    <path android:fillColor="?attr/app_bar_text" android:pathData="M15.6,17.6v-4.4h2.8v4.4z" />
+</vector>

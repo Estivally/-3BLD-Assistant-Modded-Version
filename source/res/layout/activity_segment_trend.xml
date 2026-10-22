@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 分段趋势页：CustomToolbar + 全屏 WebView（canvas 折线图，页面在 assets/segment_trend.html）。
+     结构照 activity_lx_batch_import.xml：尺寸全走 @dimen/fw_*，不写字面量。
+     id 用 @+id/ 新声明（不进 public.xml），Java 侧 getIdentifier 按名取。 -->
+<RelativeLayout android:orientation="vertical" android:background="@drawable/background_page_gradient" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <zd.cornermemory.view.CustomToolbar android:id="@id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:toolbarTitle="@string/segment_trend_title" />
+    <WebView android:id="@+id/trend_web" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@id/toolbar" android:background="@android:color/transparent" />
+</RelativeLayout>

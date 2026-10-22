@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 浅梦公式集说明页：内容来自 assets/qm_readme.txt，行全部由 Java 动态拼（QmReadmeActivity）。 -->
+<RelativeLayout android:orientation="vertical" android:background="@drawable/background_page_gradient" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <zd.cornermemory.view.CustomToolbar android:id="@id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:toolbarTitle="@string/alg818_readme_title" />
+
+    <ScrollView android:id="@+id/qm_readme_scroll" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/toolbar_height" android:paddingStart="@dimen/spacing_md" android:paddingEnd="@dimen/spacing_md" android:paddingBottom="@dimen/spacing_lg" android:fillViewport="true" android:scrollbars="none">
+        <LinearLayout android:orientation="vertical" android:id="@+id/qm_readme_body" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingBottom="@dimen/spacing_lg" />
+    </ScrollView>
+
+    <TextView android:textSize="@dimen/fw_text_13" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/qm_readme_empty" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/toolbar_height" android:visibility="gone" />
+</RelativeLayout>

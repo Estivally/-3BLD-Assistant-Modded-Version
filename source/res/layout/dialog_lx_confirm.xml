@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt21：通用确认弹窗（批量编辑页内部用：全部恢复默认 / 退出时有未保存修改）。
+     id 用 @+id/ 新声明，Java 侧按名字 getIdentifier 取。 -->
+<LinearLayout android:orientation="vertical" android:background="@drawable/timer_dialog_card_bg" android:paddingTop="@dimen/fw_space_14" android:paddingBottom="@dimen/fw_space_14" android:layout_width="@dimen/fw_size_320" android:layout_height="wrap_content" android:paddingStart="@dimen/fw_space_16" android:paddingEnd="@dimen/fw_space_16"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView android:textSize="@dimen/fw_text_17" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:id="@+id/lx_confirm_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:includeFontPadding="false" android:text="@string/lx_batch_edit_title" />
+
+    <TextView android:textSize="@dimen/fw_text_12" android:textColor="?attr/app_text_secondary" android:id="@+id/lx_confirm_msg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_10" android:lineSpacingExtra="@dimen/fw_size_4" />
+
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_12">
+        <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_confirm_cancel" android:background="@drawable/control_chip_bg" android:focusable="true" android:clickable="true" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_48" android:layout_weight="1.0" android:text="@string/lx_batch_edit_cancel" />
+        <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@+id/lx_confirm_ok" android:background="@drawable/timer_input_confirm_bg" android:focusable="true" android:clickable="true" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_48" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12" android:text="@string/lx_batch_edit_confirm_ok" />
+    </LinearLayout>
+</LinearLayout>

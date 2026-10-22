@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt21：批量编辑联想词的单行。
+     [编码 44dp] [缩略图 36dp] [联想词输入框 weight=1] [恢复默认 36dp]
+     高度至少 56dp 保证触控目标。id 用 @+id/ 新声明。 -->
+<LinearLayout android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="@dimen/spacing_sm" android:paddingEnd="@dimen/spacing_sm" android:paddingTop="@dimen/fw_space_6" android:paddingBottom="@dimen/fw_space_6" android:minHeight="@dimen/fw_size_56" android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/fw_text_13" android:textStyle="bold" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_row_code" android:layout_width="@dimen/fw_size_44" android:layout_height="wrap_content" android:fontFeatureSettings="tnum" />
+    <ImageView android:id="@+id/lx_row_img" android:scaleType="centerCrop" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:layout_marginStart="@dimen/fw_space_4" android:contentDescription="@null" />
+    <EditText android:textSize="@dimen/fw_text_14" android:textColor="?attr/app_text_primary" android:textColorHint="?attr/app_text_hint" android:id="@+id/lx_row_word" android:background="@drawable/search_input_bg" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_46" android:maxLines="1" android:inputType="text" android:paddingStart="@dimen/fw_space_14" android:paddingEnd="@dimen/fw_space_14" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_8" />
+    <TextView android:textSize="@dimen/fw_text_15" android:textColor="?attr/app_colorPrimary" android:gravity="center" android:id="@+id/lx_row_reset" android:background="?selectableItemBackgroundBorderless" android:focusable="true" android:clickable="true" android:layout_width="@dimen/fw_size_44" android:layout_height="@dimen/fw_size_44" android:layout_marginStart="@dimen/fw_space_4" android:contentDescription="@string/lx_batch_edit_reset_one_desc" android:text="@string/lx_batch_edit_reset_icon" />
+</LinearLayout>

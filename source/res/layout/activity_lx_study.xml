@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt23：联想词 SRS 间隔重复学习页。
+     结构照 activity_lx_batch_edit.xml：CustomToolbar + 卡片，尺寸全走 @dimen/fw_*。
+     id 用 @+id/ 新声明，Java 侧 getIdentifier 按名取，不进 public.xml。
+     卡片正面只露编码，点击后才显示联想词与图片（避免图片提前泄题）。 -->
+<RelativeLayout android:orientation="vertical" android:background="@drawable/background_page_gradient" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <zd.cornermemory.view.CustomToolbar android:id="@id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:toolbarTitle="@string/lx_study_title" />
+
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/toolbar_height" android:paddingStart="@dimen/spacing_md" android:paddingEnd="@dimen/spacing_md">
+
+        <!-- 进度行：本次 x / y  +  待复习 · 新词 -->
+        <LinearLayout android:orientation="horizontal" android:gravity="center_vertical" android:paddingTop="@dimen/fw_space_8" android:paddingBottom="@dimen/fw_space_8" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="@dimen/fw_text_13" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:id="@+id/lx_study_progress" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:fontFeatureSettings="tnum" />
+            <TextView android:textSize="@dimen/fw_text_11" android:textColor="?attr/app_text_secondary" android:id="@+id/lx_study_counts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFeatureSettings="tnum" />
+            <!-- 方向 chip：正向（看码想词）/ 反向（看词猜码），同一份 SRS 进度 -->
+            <TextView android:textSize="@dimen/fw_text_11" android:textStyle="bold" android:textColor="?attr/app_colorPrimary" android:gravity="center" android:id="@+id/lx_study_dir" android:background="@drawable/control_chip_bg" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="@dimen/fw_size_28" android:paddingStart="@dimen/fw_space_12" android:paddingEnd="@dimen/fw_space_12" android:layout_marginStart="@dimen/fw_space_8" android:text="@string/lx_study_dir_fwd" />
+        </LinearLayout>
+
+        <ProgressBar android:id="@+id/lx_study_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="@dimen/fw_size_4" android:progressDrawable="@drawable/lx_study_progress_bg" android:max="100" android:progress="0" />
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="0.0dp" android:layout_weight="1.0">
+
+            <!-- 卡片：正面编码，背面联想词 + 图片 -->
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:id="@+id/lx_study_card" android:background="@drawable/card_background" android:focusable="true" android:clickable="true" android:padding="@dimen/spacing_lg" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/spacing_md" android:elevation="@dimen/elevation_sm">
+                <!-- 卡片内编辑：改联想词 / 换图 / 恢复默认 -->
+                <TextView android:textSize="@dimen/fw_text_16" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_study_edit" android:focusable="true" android:clickable="true" android:layout_gravity="end" android:layout_width="@dimen/fw_size_28" android:layout_height="@dimen/fw_size_28" android:contentDescription="@string/lx_study_edit_title" android:text="@string/lx_study_edit" />
+                <TextView android:textSize="@dimen/fw_text_56" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:id="@+id/lx_study_code" android:layout_width="wrap_content" android:layout_height="wrap_content" android:includeFontPadding="false" android:fontFeatureSettings="tnum" />
+                <TextView android:textSize="@dimen/fw_text_12" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_study_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8" android:text="@string/lx_study_tap_hint" />
+                <TextView android:textSize="@dimen/fw_text_24" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:id="@+id/lx_study_word" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8" android:visibility="gone" />
+                <ImageView android:id="@+id/lx_study_img" android:scaleType="fitCenter" android:adjustViewBounds="true" android:layout_width="@dimen/fw_size_160" android:layout_height="wrap_content" android:maxHeight="@dimen/fw_size_160" android:layout_marginTop="@dimen/spacing_md" android:visibility="gone" android:contentDescription="@null" />
+                <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_study_meta" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8" android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- 空态：今天复习完了 -->
+            <LinearLayout android:orientation="vertical" android:gravity="center" android:id="@+id/lx_study_empty" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone">
+                <TextView android:textSize="@dimen/fw_text_40" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🎉" android:contentDescription="@null" />
+                <TextView android:textSize="@dimen/fw_text_18" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:id="@+id/lx_study_empty_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_sm" />
+                <TextView android:textSize="@dimen/fw_text_13" android:textColor="?attr/app_text_secondary" android:gravity="center" android:id="@+id/lx_study_empty_desc" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_sm" android:lineSpacingExtra="@dimen/fw_space_2" />
+                <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@+id/lx_study_new_btn" android:background="@drawable/timer_input_confirm_bg" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="@dimen/fw_size_48" android:paddingStart="@dimen/spacing_lg" android:paddingEnd="@dimen/spacing_lg" android:layout_marginTop="@dimen/spacing_md" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- 三档评分：忘记 / 模糊 / 记得（未翻面时变淡，点了只提示先翻面） -->
+        <LinearLayout android:orientation="horizontal" android:id="@+id/lx_study_actions" android:paddingTop="@dimen/spacing_sm" android:paddingBottom="@dimen/spacing_sm" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_lit_text_dc2626" android:gravity="center" android:id="@+id/lx_study_again" android:background="@drawable/control_chip_bg" android:focusable="true" android:clickable="true" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_48" android:layout_weight="1.0" android:text="@string/lx_study_again" />
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:id="@+id/lx_study_hard" android:background="@drawable/control_chip_bg" android:focusable="true" android:clickable="true" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_48" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_8" android:text="@string/lx_study_hard" />
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="@android:color/white" android:gravity="center" android:id="@+id/lx_study_good" android:background="@drawable/timer_input_confirm_bg" android:focusable="true" android:clickable="true" android:layout_width="0.0dp" android:layout_height="@dimen/fw_size_48" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_8" android:text="@string/lx_study_good" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

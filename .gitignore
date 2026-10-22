@@ -1,0 +1,50 @@
+# ---------- 成品包与二进制 ----------
+dist/
+*.apk
+*.apkg
+*.aab
+*.idsig
+*.dex
+*.jar
+*.zip
+
+# ---------- 构建中间产物 ----------
+/tmp/
+/build/
+*.smali.bak*
+*.bak-*
+*.log
+
+# ---------- 素材（体积大，不入库） ----------
+联想图-审查/
+cube-bld/
+lx_pic_builtin/
+lx_pic_emoji/
+lx_pic_emoji_final/
+lx_pic_new/
+lx_pic_new_raw/
+lx_pic_scraped/
+scrape_cand/
+scraped_raw/
+sogou_360_raw/
+analysis/
+reports/
+UI重设计/
+
+# ---------- 根目录工作副本（仓库以 docs/ 为准） ----------
+/REPORT-*.md
+/PLAN-*.md
+/开发计划.md
+/APK优化-实施报告.md
+/APK优化建议.md
+/APK替换-核验报告.md
+/深色模式-对照表.md
+
+# ---------- 工具 / 编辑器 ----------
+.workbuddy/
+.workbuddy-ai/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

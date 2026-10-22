@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/timer_dialog_card_bg" android:paddingTop="@dimen/fw_space_16" android:paddingBottom="@dimen/fw_space_16" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/fw_space_16" android:paddingEnd="@dimen/fw_space_16"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/fw_text_18" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/lx_pic_manage_title" android:includeFontPadding="false" />
+    <TextView android:textSize="@dimen/fw_text_11" android:textColor="?attr/app_text_secondary" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_6" android:text="@string/lx_pic_manage_subtitle" android:includeFontPadding="false" />
+    <LinearLayout style="@style/FwRowManageItem" android:id="@id/action_export_assets" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_14">
+        <TextView android:textSize="@dimen/fw_text_15" android:textStyle="bold" android:textColor="?attr/app_lit_text_b45309" android:gravity="center" android:background="@drawable/score_manage_badge_export_bg" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:text="@string/lx_pic_export_badge" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lx_pic_export_action" />
+            <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_2" android:text="@string/lx_pic_export_desc" />
+        </LinearLayout>
+        <ImageView style="@style/FwIconArrowRight" android:layout_width="@dimen/fw_size_20" android:layout_height="@dimen/fw_size_20"/>
+    </LinearLayout>
+    <LinearLayout style="@style/FwRowManageItem" android:id="@id/action_import_assets" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8">
+        <TextView android:textSize="@dimen/fw_text_15" android:textStyle="bold" android:textColor="?attr/app_lit_text_059669" android:gravity="center" android:background="@drawable/score_manage_badge_import_bg" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:text="@string/lx_pic_import_badge" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lx_pic_import_action" />
+            <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_2" android:text="@string/lx_pic_import_desc" />
+        </LinearLayout>
+        <ImageView style="@style/FwIconArrowRight" android:layout_width="@dimen/fw_size_20" android:layout_height="@dimen/fw_size_20"/>
+    </LinearLayout>
+    <LinearLayout style="@style/FwRowManageItem" android:id="@+id/action_batch_import" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8">
+        <TextView android:textSize="@dimen/fw_text_15" android:textStyle="bold" android:textColor="?attr/app_lit_text_059669" android:gravity="center" android:background="@drawable/score_manage_badge_import_bg" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:text="@string/lx_batch_manage_badge" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lx_batch_title" />
+            <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_2" android:text="@string/lx_batch_manage_desc" />
+        </LinearLayout>
+        <ImageView style="@style/FwIconArrowRight" android:layout_width="@dimen/fw_size_20" android:layout_height="@dimen/fw_size_20"/>
+    </LinearLayout>
+    <!-- opt21：批量编辑联想词入口。与批量导入同一接线（LxBatchImportEntry.attach）。 -->
+    <LinearLayout style="@style/FwRowManageItem" android:id="@+id/action_batch_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8">
+        <TextView android:textSize="@dimen/fw_text_15" android:textStyle="bold" android:textColor="?attr/app_lit_text_b45309" android:gravity="center" android:background="@drawable/score_manage_badge_export_bg" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:text="@string/lx_batch_edit_manage_badge" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lx_batch_edit_manage_action" />
+            <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_2" android:text="@string/lx_batch_edit_manage_desc" />
+        </LinearLayout>
+        <ImageView style="@style/FwIconArrowRight" android:layout_width="@dimen/fw_size_20" android:layout_height="@dimen/fw_size_20"/>
+    </LinearLayout>
+    <!-- opt23：联想词 SRS 学习入口。同样走 LxBatchImportEntry.attach 接线。 -->
+    <LinearLayout style="@style/FwRowManageItem" android:id="@id/action_reset_assets" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_8">
+        <TextView android:textSize="@dimen/fw_text_15" android:textStyle="bold" android:textColor="?attr/app_lit_text_dc2626" android:gravity="center" android:background="@drawable/score_manage_badge_delete_bg" android:layout_width="@dimen/fw_size_36" android:layout_height="@dimen/fw_size_36" android:text="@string/lx_pic_reset_badge" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="@dimen/fw_space_12">
+            <TextView android:textSize="@dimen/fw_text_14" android:textStyle="bold" android:textColor="?attr/app_text_primary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lx_pic_reset_action" />
+            <TextView android:textSize="@dimen/fw_text_10" android:textColor="?attr/app_text_secondary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/fw_space_2" android:text="@string/lx_pic_reset_desc" />
+        </LinearLayout>
+        <ImageView style="@style/FwIconArrowRight" android:layout_width="@dimen/fw_size_20" android:layout_height="@dimen/fw_size_20"/>
+    </LinearLayout>
+    <TextView style="@style/FwBtnDialogCancel" android:id="@id/action_cancel" android:layout_width="match_parent" android:layout_height="@dimen/fw_size_48" android:layout_marginTop="@dimen/fw_space_12" android:text="@string/cancel" />
+</LinearLayout>

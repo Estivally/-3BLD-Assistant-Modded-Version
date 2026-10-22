@@ -1,0 +1,818 @@
+C	JAD	R.D.	中	R' D R U':[R' D' R,U']	3步setup将缓冲块移动到底层，藏角做法。 注意两块差U还是差U2判定112/211型还是121型	R' D R U' R' D' R U' R' D R U2 R' D' R		
+C	JAE	R.U.	中	R U R':[U2,R' D' R]		R U R' U2 R' D' R U2 R' D R R U' R'		
+C	JAF	UU	上	U' R':[U',R' D' R]		U' R' U' R' D' R U R' D R R U		
+C	JAG	R.D.	中	R' D R U':[R' D' R,U2]		R' D R U' R' D' R U2 R' D R U' R' D' R	R F' R' U R' D R U' R' D' R R F R'	R F' R':[U,R' D R]
+C	JAH	UU	上	R' D':[U',R' D R]		R' U' D' R' D R U R' D' R D R		
+C	JAI	UU	上	U' R':[U2,R' D' R]		U' R' U2 R' D' R U2 R' D R R U		
+C	JAM	Base	中/上	[R' D R,U']	这32条公式原理同上16条公式，共48条基础公式及其衍生扩展将覆盖大部分378公式，所以对这些公式的理解、区分与练习非常重要，并且这些公式使用时必须作为整体去理解，这样后续的学习才简单。 9步交换子的理解与应用：以AS为例，交换块为S，那么一定是去G位置交换，但A色块和J色块都不在G位置，这时注意交换块S先到哪个块——S先去J色块，则先转U'把J移动到G位置进行交换，然后完成后续步骤，U层转动一定为360度。注意观察紫色标注的步骤，U层的转动分为112，211，121三种情况（1和1的方向一定相同），这样记忆公式时不需要思考U层消步。	R' D R U' R' D' R U		
+C	JAN	Base	中/上	D:[R' D' R,U']		D R' D' R U' R' D R D' U		
+C	JAO	R.F(B).R.	中	R' B:[D',R U' R']	R'BR后编码O到达Z位置，后与Base一致	R' B D' R U' R' D R U R' B' R		
+C	JAP	Base	中	U' D':[R D R',U']		U' D' R D R' U' R D' R' D U2	D R' D R U' R' D' R U D'	D:[R' D R,U']
+C	JAQ	Base	中	U':[R D' R',U']		U' R D' R' U' R D R' U2		
+C	JAR	R.D.	中	R D' R':[R' D R,U']	以下为R.D.R.类 RD'R'将R移到M位置，并且将Q移至顶面与缓冲形成直达，关联编码R。 A的U层为11型 D的U层为22型 G的U层为11型	R D' R' R' D R U' R' D' R U R D R'		
+C	JAS	Base	中	U':[R D R',U']		U' R D R' U' R D' R' U2		
+C	JAT	Base	中	U' D:[R D' R',U']		U' D R D' R' U' R D R' D' U2	D' R' D' R U' R' D R U D	D':[R' D' R,U']
+C	JAW	R.F(B).R.	中	U' R F':[D,R' U' R]		U' R F' D R' U' R D' R' U R F R' U		
+C	JAX	R.D.	中	D R D' R':[R' D R,U']		D R D' R' R' D R U' R' D' R U R D R' D'	R' D R U' R D' R' U' R D R' U R' D' R U	[R' D R U' R D' R',U']
+C	JAY	Base	中/上	D':[R' D R,U']		D' R' D R U' R' D' R D U		
+C	JAZ	Base	中/上	[R' D' R,U']		R' D' R U' R' D R U		
+C	JBD	Others	左下	l' U' D':[R D R',U2]		l' U' D' R D R' U2 R D' R' D U' l	R' F R U D R' D' R U R' D R U2 D' R' F' R	R' F R U D:[R' D' R,U]
+C	JBE	Others	左下	l' U':[R D' R',U2]	l/l'后B,P到D位置，后和Base公式一致	l' U' R D' R' U2 R D R' U' l	U R' U' R2 D R' U2 R D' R' U2 R' U R U'	U R' U' R:[R D R',U2]
+C	JBF	R.U.	中	R U R' D':[U2,R' D R]		R U R' U2 D' R' D R U2 R' D' R D R U' R'		
+C	JBG	DU	下	R:[R D R',U2]	本页均为下起手公式 setup做R之后，缓冲块J到了H位置，HB形成直达层，关联编码B。 空格以上U层为22型（这里的22指U层转动步骤为U2 U2）; 空格以下U层为121型(指U层步骤为U U2 U/U' U2 U'),后续不再解释	R R D R' U2 R D' R' U2 R'		
+C	JBH	DU	下	R D:[R D' R',U2]		R D R D' R' U2 R D R' D' U2 R'	R U D' R' D' R U2 R' D R U D R'	R U D':[R' D' R,U2]
+C	JBI	BT	中	R':[U',R2 D' R2 D R2]		R' U' R2 D' R2 D R2 U R2 D' R2 D R'		
+C	JBM	BT	中	R' D:[F2,D' R D R']	主要记忆F层之前的步骤，后续步骤使用肌肉记忆（这类setup后长度不变的公式不区分setup颜色） 两个区分小技巧：①F步骤前后步骤互逆（R'F2之后一定是R，不可能是D层）。②NY在F'之前是3步，那在F之后一定是1步。	R' D F2 D' R D R' F2 R D'		
+C	JBN	DU	中/下	R U:[R' D R,U2]		R U R' D R U2 R' D' R U R'		
+C	JBO	DU	下	R:[R D' R',U2]		R R D' R' U2 R D R' U2 R'		
+C	JBP	BT	中	D R' D:[F2,D' R D R']		D R' D F2 D' R D R' F2 R D2		
+C	JBQ	DU	下	R D':[R D R',U2]		R D' R D R' U2 R D' R' D U2 R'	R U D R' D R U2 R' D' R U D' R'	R U D:[R' D R,U2]
+C	JBR	DU	下	D R:[R D' R',U2]		D R R D' R' U2 R D R' U2 R' D'		
+C	JBS	DU	中/下	R U D':[R' D R,U2]		R U D' R' D R U2 R' D' R D U R'		
+C	JBT	DU	中/下	R U:[R' D' R,U2]		R U R' D' R U2 R' D R U R'		
+C	JBW	DU	中/下	R U D:[R' D' R,U2]		R U D R' D' R U2 R' D R D' U R'		
+C	JBX	DU	中/下	D' R U D:[R' D' R,U2]		D' R U D R' D' R U2 R' D R D' U R' D		
+C	JBY	BT	中	R':[R D' R' D,F2]		D' R' D F2 D' R D R' F2 R		
+C	JBZ	DU	中/下	D R U:[R' D' R,U2]		D R U R' D' R U2 R' D R U R' D'		
+C	JCD	Others	中	f:[R' D' R,U2]	做f/F,f' setup,C和D，I和J，J和T形成直达层 注意观察顶层字母差的U层步骤以及是否包涵空穴	f R' D' R U2 R' D R U2 f'		
+C	JCE	Others	中	[U' R' U,L]	看被夹的字母（C,H）先后被打，且打一定是通过RL层1步转动	U' R' U L U' R U L'	U' R' F R U R' D R U' R' D' F' R U	U' R' F:[R U R',D]
+C	JCF	UU	上	R' U':[R' D' R,U']		R' U' R' D' R U' R' D R U2 R		
+C	JCG	UU	上	R':[U',R' D' R]	本页均为上起手公式 setup做R'缓冲块会跑到D层，3步交换步骤解决CFSG类，4步解决ADHT类。 注意观察R'后顶层两块差的U层步骤以及是否其中有一块在UFR空穴位置判定U层是哪个型。	R' U' R' D' R U R' D R R		
+C	JCH	R.F(B).R.	中	R' F:[R U R',D]	R'FR后缓冲块在D层，11型前空穴做法。因为R'F后编码H在底层，所以H相关编码需要使用D层交换子理解。	R' F R U R' D R U' R' D' F' R		
+C	JCI	Others	中	R U' D' R':[D,R' U R]		R U' D' R' D R' U R D' R' U' R R D U R'		
+C	JCM	R.U.	中/上	R' U':[D,R U R']	R' U'后编码C在UFR位置，缓冲块J在底层与M和Z形成直达层，关联编码C。 XH虽然是做U变成CZ，注意变化后字母顺序要互换	R' D U' R U R' D' R U' R' U R		
+C	JCN	R.U.	中/上	D R' U':[D',R U R']		D R' D' U' R U R' D R U' R' U R D'		
+C	JCO	Others	上	R2 D':[D',R U' R']	D层9步交换子，R2后J和O形成直达。 空格以上D层为112/211型； 空格以下R后同HQ U'后做法	R2 D2 R U' R' D R U R' D R2		
+C	JCP	R.U.	中/上	D R' U':[D,R U R']		D R' D U' R U R' D' R U' R' U R D'		
+C	JCQ	R.U.	中/下	U' R U':[D',R' U R]		U' R D' U' R' U R D R' U' R U R' U		
+C	JCR	Others	中	R U' R':[D,R' U R]	R U'（D'） R setup后C O W与R形成直达。关联编码R。	R U' R' D R' U R D' R' U' R R U R'		
+C	JCS	UU	上	R' U':[R' D' R,U2]		R' U' R' D' R U2 R' D R U' R		
+C	JCT	Others	下	F:[D',R U R']		F D' R U R' D R U' R' F'		
+C	JCW	R.U.	中/上	U' R' U:[R U' R',D]		U' R' U R U' R' D R U R' U' D' R U		
+C	JCX	R.U.	中	R U' R':[R' D' R,U2]	以下为R.U.R.类 通过RU'R'快速学习X开头的公式是比较典型的setup分类优势。 RU'R'后缓冲块与X构成直达，关联编码X。XS比较特殊，setup中插下入了D'，但原理类似。 空格以上U层为22型； 空格以下U层为121型	R U' R' R' D' R U2 R' D R U2 R U R'		
+C	JCY	BT	中	R:[F,R' U R U']		R F R' U R U' F' U R' U'		
+C	JCZ	R.U.	中/上	R' U':[D',R U R']		R' D' U' R U R' D R U' R' U R		
+C	JDA	R.D.	中	R' D R U':[U',R' D' R]		R' D R U2 R' D' R U R' D R U R' D' R		
+C	JDB	Others	左下	l' U D':[R D R',U2]		l' U D' R D R' U2 R D' R' D U l	R' F R U2 D R' D' R U' R' D R U' D' R' F' R	R' F R U2 D:[R' D' R,U']
+C	JDC	Others	中	f:[U2,R' D' R]		f U2 R' D' R U2 R' D R f'		
+C	JDG	R.D.	中	R' D R U:[U,R' D' R]		R' D R U2 R' D' R U' R' D R U' R' D' R		
+C	JDH	UU	上	R' D':[U2,R' D R]		R' U2 D' R' D R U2 R' D' R D R		
+C	JDI	Others	中	R' U D R:[R U' R',D']	R' U D (U' D') R setup之后J与I O形成直达。关联编码D。	R' U D R R U' R' D' R U R' D R' D' U' R		
+C	JDM	Base	中	[R' D R,U2]		R' D R U2 R' D' R U2		
+C	JDN	Base	中	D:[R' D' R,U2]		D R' D' R U2 R' D R D' U2		
+C	JDO	Others	中	R' U' D' R:[R U' R',D]		R' U' D' R R U' R' D R U R' D' R' D U R		
+C	JDP	Base	中	U' D':[R D R',U2]		U' D' R D R' U2 R D' R' D U'		
+C	JDQ	Base	中	U':[R D' R',U2]		U' R D' R' U2 R D R' U'		
+C	JDR	R.D.	中	R D' R':[R' D R,U2]		R D' R' R' D R U2 R' D' R U2 R D R'		
+C	JDS	Base	中	U':[R D R',U2]		U' R D R' U2 R D' R' U'		
+C	JDT	Base	中	U' D:[R D' R',U2]		U' D R D' R' U2 R D R' D' U'		
+C	JDW	R.F(B).R.	中	R F' R' U':[R D R',U2]		R F' R' U' R D R' U2 R D' R' U' R F R'		
+C	JDX	R.D.	中	D R D' R':[R' D R,U2]		D R D' R' R' D R U2 R' D' R U2 R D R' D'	U' R' D R R D' R' U2 R D R' U2 R' D' R U	U' R' D R:[R D' R',U2]
+C	JDY	Base	中	D':[R' D R,U2]		D' R' D R U2 R' D' R D U2		
+C	JDZ	Base	中	[R' D' R,U2]		R' D' R U2 R' D R U2		
+C	JEA	R.U.	中	R U R':[R' D' R,U2]		R U R' R' D' R U2 R' D R U2 R U' R'		
+C	JEB	Others	左下	l' U:[R D' R',U2]		l' U R D' R' U2 R D R' U l	U R' U' R U2 R D R' U2 R D' R2 U R U'	U R' U' R:[U2,R D R']
+C	JEC	Others	中	[L,U' R' U]		L U' R' U L' U' R U	U' R' F D R U R' D' R U' R' F' R U	U' R' F:[D,R U R']
+C	JEG	DU	下	R:[R D R',U]	原理同上，setup做R之后，缓冲块J到了H位置，HE形成直达层，关联编码E 空格以上U层为11型 空格以下U层为112/211型	R R D R' U R D' R' U' R'		
+C	JEH	UU	上	U R':[U',R' D' R]	U R' setup后J E到A J位置形成直达 U层为11型	U R' U' R' D' R U R' D R R U'		
+C	JEI	BT	中	R:[R2 D R2 D' R2,U]		R' D R2 D' R2 U R2 D R2 D' R2 U' R'		
+C	JEM	UU	上	U R':[U',R' D R]		U R' U' R' D R U R' D' R R U'		
+C	JEN	DU	中/下	R U:[R' D R,U]		R U R' D R U R' D' R U2 R'		
+C	JEO	DU	下	R:[R D' R',U]		R R D' R' U R D R' U' R'		
+C	JEP	UU	上	U D R':[U',R' D R]		U D R' U' R' D R U R' D' R R D' U'		
+C	JEQ	DU	下	R D':[R D R',U]		R D' R D R' U R D' R' D U' R'		
+C	JER	DU	下	D R:[R D' R',U]		D R R D' R' U R D R' U' R' D'		
+C	JES	DU	中/下	R U D':[R' D R,U]		R U D' R' D R U R' D' R D U2 R'		
+C	JET	DU	中/下	R U:[R' D' R,U]		R U R' D' R U R' D R U2 R'		
+C	JEW	DU	下	D' R:[R D' R',U]		D' R R D' R' U R D R' U' R' D		
+C	JEX	DU	下	D2 R:[R D' R',U]		D2 R R D' R' U R D R' U' R' D2	U R' U' D' R' D' R U R' D R D R U'	U R' D':[U',R' D' R]
+C	JEY	R.U.	中	R U R':[R' D' R,U']	RUR'后缓冲块J在底层，根据顶层状态，R' D' R的交换步骤可以处理YAGE的组合，R' D R可以处理ZBHF的组合。只推荐AE EY BF。 空格以下U层为22型	R U R' R' D' R U' R' D R U R U' R'		
+C	JEZ	DU	中/下	D R U:[R' D' R,U]		D R U R' D' R U R' D R U2 R' D'		
+C	JFA	UU	上	U' R':[R' D' R,U']		U' R' R' D' R U' R' D R U R U		
+C	JFB	R.U.	中	R U R' D':[R' D R,U2]		R U R' D' R' D R U2 R' D' R D U2 R U' R'		
+C	JFC	UU	上	R' U':[U',R' D' R]		R' U2 R' D' R U R' D R U R		
+C	JFG	UU	上	R':[U2,R' D' R]		R' U2 R' D' R U2 R' D R R		
+C	JFH	Others	中	[U' L' U,R]		U' L' U R U' L U R'	R B' D' R' U' R D R' U R B R'	R B':[D',R' U' R]
+C	JFI	DU	下	U R:[R D R',U2]		U R R D R' U2 R D' R' U2 R' U'		
+C	JFM	R.F(B).R.	中	R B' R':[U,R' D R]	RB'R'后缓冲块与F构成U层直达。关联编码F。 setup后缓冲块J在UBR位置，编码F在UFR位置，注意区分方向。	R B' R' U R' D R U' R' D' R R B R'		
+C	JFN	Others	上	D R':[R' U R,D]		D R' R' U R D R' U' R D' R D'	U R' F' R U' R' D R U R' D' F R U'	U R' F':[R U' R',D]
+C	JFO	Others	下	R2 U:[D',R' U' R]		R2 D' U R' U' R D R' U R U' R2		
+C	JFP	UU	中/上	U' R' U':[R D' R',U']	U'R'后缓冲块与F I S构成直达，关联编码F I S。 第一块底层字母为1位置（PY） F的U层为112/211型； I的U层为为121型 第二块底层字母为0位置W F的U层为11型； I的U层为22型 第三块实则为OZ的前后镜像，注意第一步要做U'将J移到G U层为11型	U' R' U' R D' R' U' R D R' U2 R U		
+C	JFQ	DU	中	U2 R:[U,R D' R']		U2 R U R D' R' U' R D R' R' U2		
+C	JFR	Others	下	U R:[D',R U' R']	U R setup后F R形成直达。	U R D' R U' R' D R U R' R' U'		
+C	JFS	UU	上	R' U:[U,R' D' R]		R' U2 R' D' R U' R' D R U' R		
+C	JFT	Others	上	D' R':[R' U R,D]		D' R' R' U R D R' U' R D' R D		
+C	JFW	UU	上	U' R':[R' D R,U']		U' R' R' D R U' R' D' R U R U		
+C	JFX	UU	上	U' D' R':[R' D R,U']		U' D' R' R' D R U' R' D' R U R D U		
+C	JFY	UU	中/上	U' R' U':[R D R',U']		U' R' U' R D R' U' R D' R' U2 R U		
+C	JFZ	Others	上	R':[R' U R,D]	R' setup后J Z形成直达。	R' R' U R D R' U' R D' R	R B' R' U R' D' R U' R' D R2 B R'	R B' R':[U,R' D' R]
+C	JGA	R.D.	中	R' D R U:[R' D' R,U2]		R' D R U R' D' R U2 R' D R U R' D' R	R F' R' R' D R U R' D' R U' R F R'	R F' R':[R' D R,U]
+C	JGB	DU	下	R:[U2,R D R']		R U2 R D R' U2 R D' R' R'		
+C	JGC	UU	上	R':[R' D' R,U']		R' R' D' R U' R' D R U R		
+C	JGD	R.D.	中	R' D R U:[R' D' R,U]		R' D R U R' D' R U R' D R U2 R' D' R		
+C	JGE	DU	下	R:[U,R D R']		R U R D R' U' R D' R' R'		
+C	JGF	UU	上	R':[R' D' R,U2]		R' R' D' R U2 R' D R U2 R		
+C	JGM	Base	中/上	[R' D R,U]	基础16条公式，这是DD'相间的做法，规律性较强。对于10步的基础公式建议直接记忆4步的交换步骤（标红步骤）。 部分规律如下：①侧面的ZMSQ是3步交换步骤，在前后面的YNTP是4步交换步骤。②在前面的YZMN交换时一定会去前面的空穴J，在后面的STPQ交换时一定会去空穴G。③可以自行总结左手无名指的起始位置规律。	R' D R U R' D' R U'		
+C	JGN	Base	中/上	D:[R' D' R,U]		D R' D' R U R' D R D' U'		
+C	JGO	R.F(B).R.	中	R' B:[D',R U R']		R' B D' R U R' D R U' R' B' R		
+C	JGP	Base	中/下	D':[U',R D R']		U' D' R D R' U R D' R' D		
+C	JGQ	Base	中/下	[U',R D' R']		U' R D' R' U R D R'		
+C	JGR	BT	中	[U',R D' R' U R' D R]	前4条主要通过R' D R U' R D' R'及其镜像处理编码X和R。实际过程是先做R' D R将编码X移到Q位置，再通过U' R D R'将其移动到G位置，这样初步理解并肌肉记忆即可 中间4条注意起头R层方向还有中间D U方向配一堆R2即可。 最后4条和前4条原理类似，也初步理解并肌肉记忆即可。	U' R D' R' U R' D R U R' D' R U' R D R'		
+C	JGS	Base	中/下	[U',R D R']		U' R D R' U R D' R'		
+C	JGT	Base	中/下	D:[U',R D' R']		U' D R D' R' U R D R' D'		
+C	JGW	R.F(B).R.	中	R F':[R' U' R,D]	RF'R'后W到达S位置，后与Base一致	R F' R' U' R D R' U R D' F R'		
+C	JGX	BT	中	[R' D R U' R D' R',U]		R' D R U' R D' R' U R D R' U R' D' R U'		
+C	JGY	Base	中/上	D':[R' D R,U]		D' R' D R U R' D' R D U'		
+C	JGZ	Base	中/上	[R' D' R,U]		R' D' R U R' D R U'		
+C	JHA	UU	上	R' D':[R' D R,U']		R' D' R' D R U' R' D' R D U R		
+C	JHB	DU	下	R D:[U2,R D' R']		R U2 D R D' R' U2 R D R' D' R'	R U' D' R' D' R U2 R' D R U' D R'	R U' D':[R' D' R,U2]
+C	JHC	R.F(B).R.	中	R' F:[D,R U R']		R' F D R U R' D' R U' R' F' R		
+C	JHD	UU	上	R' D':[R' D R,U2]		R' D' R' D R U2 R' D' R D U2 R		
+C	JHE	UU	上	U R':[R' D' R,U']		U R' R' D' R U' R' D R U R U'		
+C	JHF	Others	中	[R,U' L' U]		R U' L' U R' U' L U	R B' R' U' R D' R' U R D B R'	R B':[R' U' R,D']
+C	JHM	R.U.	中/上	R' U:[D,R U' R']	R' U后编码H在UFL位置，缓冲块J在底层与M和Z形成直达层，关联编码H。 R' U后编码S在UFR位置，缓冲块J在底层与M和Z形成直达层。	R' D U R U' R' D' R U R' U' R		
+C	JHN	R.F(B).R.	中	R' F:[D,R U' R']		R' F D R U' R' D' R U R' F' R	U R' U' R U R' D R U' R' U D' R U'	U R' U':[R U R',D]
+C	JHO	R.U.	中/下	R U':[R' U R,D']	以下为R.U.类 R U'后缓冲块在UBR位置，H T O W在底层形成直达层，可以解决HTOW组合公式 按照先后顺序将字母挪到DBR位置做交换步骤即可	R U' R' U R D' R' U' R U D R'		
+C	JHP	R.U.	中/上	D R' U:[D,R U' R']		D R' D U R U' R' D' R U R' U' R D'		
+C	JHQ	R.U.	中/下	U' R U:[D',R' U' R]	一些3步setup，原理同上。	U' R D' U R' U' R D R' U R U' R' U		
+C	JHR	R.U.	中/下	D R U':[R' U R,D']		D R U' R' U R D' R' U' R U D R' D'		
+C	JHS	R.U.	中/下	U' R U:[D,R' U' R]		U' R D U R' U' R D' R' U R U' R' U		
+C	JHT	R.U.	中/下	R U':[R' U R,D]		R U' R' U R D R' U' R U D' R'		
+C	JHW	R.U.	中/下	D' R U':[R' U R,D']		D' R U' R' U R D' R' U' R U D R' D	U D R' U' R U R' D' R U' R' U D R U' D'	U D R' U':[R U R',D']
+C	JHX	R.U.	中/上	U R' U':[R U R',D']		U R' U' R U R' D' R U' R' U D R U'		
+C	JHY	R.U.	中/上	D' R' U:[D,R U' R']		D' R' D U R U' R' D' R U R' U' R D		
+C	JHZ	R.U.	中/上	R' U:[D',R U' R']		R' D' U R U' R' D R U R' U' R		
+C	JIA	UU	上	U' R':[R' D' R,U2]		U' R' R' D' R U2 R' D R U2 R U		
+C	JIB	BT	中	R':[R2 D' R2 D R2,U']		R D' R2 D R2 U' R2 D' R2 D R2 U R		
+C	JIC	Others	中	R U' D' R':[R' U R,D]		R U' D' R' R' U R D R' U' R D' R D U R'		
+C	JID	Others	中	R' U D R:[D',R U' R']		R' U D R D' R U' R' D R U R' R' D' U' R		
+C	JIE	BT	中	R:[U,R2 D R2 D' R2]		R U R2 D R2 D' R2 U' R2 D R2 D' R		
+C	JIF	DU	下	U R:[U2,R D R']	setup做U R之后，J I到A G位置形成直达层。 2位置字母（FQT）U层为为22型；1位置字母（MS）为121型 空格以下则是J Y到A J 位置形成直达层。 前4条U层为11型; 后2条U层为112/211型。	U R U2 R D R' U2 R D' R' R' U'		
+C	JIM	DU	中/下	U R U':[R' D R,U2]		U R U' R' D R U2 R' D' R U' R' U'		
+C	JIN	Others	中	f' U':[R' D' R,U2]		f' U' R' D' R U2 R' D R U' f		
+C	JIO	UU	上	U' D R':[R' D R,U2]		U' D R' R' D R U2 R' D' R U2 R D' U		
+C	JIP	UU	中/上	U' R' U':[R D' R',U2]		U' R' U' R D' R' U2 R D R' U' R U		
+C	JIQ	DU	下	U R:[U2,R D' R']		U R U2 R D' R' U2 R D R' R' U'		
+C	JIR	Others	中	f':[U2,R D R']		f' U2 R D R' U2 R D' R' f		
+C	JIS	DU	中/下	U R U':[R' D' R,U2]		U R U' R' D' R U2 R' D R U' R' U'		
+C	JIT	DU	下	U D R:[U2,R D' R']		U D R U2 R D' R' U2 R D R' R' D' U'		
+C	JIW	UU	上	U' R':[R' D R,U2]		U' R' R' D R U2 R' D' R U2 R U		
+C	JIX	UU	上	U' D' R':[R' D R,U2]		U' D' R' R' D R U2 R' D' R U2 R D U		
+C	JIY	UU	中/上	U' R' U':[R D R',U2]		U' R' U' R D R' U2 R D' R' U' R U		
+C	JIZ	R.F(B).R.	中	R' F' R U:[R' D' R,U2]	R'F'R后J与I直达，关联编码I。注意setup后缓冲块J在UBR位置。U层为121型	R' F' R U R' D' R U2 R' D R U R' F R		
+C	JMA	Base	中/上	[U',R' D R]		U' R' D R U R' D' R		
+C	JMB	BT	中	D R':[F2,R D' R' D]		D R' F2 R D' R' D F2 D' R		
+C	JMC	R.U.	中/上	R' U':[R U R',D]		R' U' R U R' D R U' R' U D' R		
+C	JMD	Base	中	[U2,R' D R]		U2 R' D R U2 R' D' R		
+C	JME	UU	上	U R':[R' D R,U']		U R' R' D R U' R' D' R U R U'		
+C	JMF	R.F(B).R.	中	R B' R':[R' D R,U]		R B' R' R' D R U R' D' R U' R B R'		
+C	JMG	Base	中/上	[U,R' D R]		U R' D R U' R' D' R		
+C	JMH	R.U.	中/上	R' U:[R U' R',D]		R' U R U' R' D R U R' U' D' R		
+C	JMI	DU	中/下	U R U:[R' D R,U2]		U R U R' D R U2 R' D' R U R' U'		
+C	JMO	BT	中	D R:[R' U R U',F2]		U D R U' F2 U R' U' R F2 R' D'		
+C	JMP	Base	中/下	U D:[R U' R',D]		U D R U' R' D R U R' D2 U'		
+C	JMQ	BT	中	D R':[F',R D' R' D]		D R' F' R D' R' D F D' R		
+C	JMR	Others	下	U R:[D,R U' R']		U R D R U' R' D' R U R' R' U'		
+C	JMS	Base	中/下	U D:[R U' R',D2]		U D R U' R' D2 R U R' D U'		
+C	JMT	R.U.	中	R' U':[R U2 R',D]	R'U'将T移到D，后与Base一致	R' U' R U2 R' D R U2 R' D' U R	U R' U R' D R U2 R' D' R U R U'	U R' U:[R' D R,U2]
+C	JMX	DU	中/下	U D R D':[U',R' D R]		U D R U' D' R' D R U R' D' R D R' U' D'	U' R' D R R D' R' U' R D R' U R' D' R U	U' R' D R:[R D' R',U']
+C	JMY	Base	中/下	U:[D,R U' R']	原理同上，关联底层1位置编码（M,P,S,Y）。交换位置为DFR,根据字母先后顺序依次将编码移到DFR位置再进行3步交换步骤（注意需要做U setup将缓冲块错开）。	D U R U' R' D' R U R' U'		
+C	JMZ	R.D.	中/上	U R' D:[R U' R',D2]	原理同上，先通过U将缓冲J挪开，空穴为UFR。 前2条D层为121型 后2条D层为112/211型	U R' D R U' R' D2 R U R' D R U'		
+C	JNA	Base	中/上	D:[U',R' D' R]		U' D R' D' R U R' D R D'		
+C	JNB	DU	中/下	R U':[R' D R,U2]		R U' R' D R U2 R' D' R U' R'		
+C	JNC	R.U.	中/上	D R' U':[R U R',D']		D R' U' R U R' D' R U' R' U D R D'		
+C	JND	Base	中	D:[U2,R' D' R]		U2 D R' D' R U2 R' D R D'		
+C	JNE	DU	中/下	R U:[U,R' D R]		R U2 R' D R U' R' D' R U' R'		
+C	JNF	Others	上	D R':[D,R' U R]		D R' D R' U R D' R' U' R R D'	U R' F' D R U' R' D' R U R' F R U'	U R' F':[D,R U' R']
+C	JNG	Base	中/上	D:[U,R' D' R]		U D R' D' R U' R' D R D'		
+C	JNH	R.F(B).R.	中	R' F:[R U' R',D]		R' F R U' R' D R U R' D' F' R	U R' U' D R U R' D' R U' R' U R U'	U R' U':[D,R U R']
+C	JNI	Others	中	f' U:[R' D' R,U2]		f' U R' D' R U2 R' D R U f		
+C	JNO	DU	中/下	D R D:[U,R' D' R]		D R U D R' D' R U' R' D R D' R' D'		
+C	JNP	R.D.	中/下	D' R D':[R' U' R,D2]		D' R D' R' U' R D2 R' U R D' R' D		
+C	JNQ	Base	中/下	D:[R U R',D]		D R U R' D R U' R' D2		
+C	JNR	DU	下	D R:[R D' R',U']		D R R D' R' U' R D R' U R' D'		
+C	JNS	R.D.	中/下	R D:[D,R' U' R]		R D2 R' U' R D' R' U R D' R'		
+C	JNT	Base	中/下	D:[R U R',D2]		D R U R' D2 R U' R' D		
+C	JNX	R.U.	中	R U' R':[R' D R,U2]		R U' R' R' D R U2 R' D' R U2 R U R'		
+C	JNY	BT	中	R':[R D' R' D,F']		D' R' D F' D' R D R' F R		
+C	JNZ	Base	中/下	[D,R U R']	D层交换子基础公式，关联底层2位置编码（N,Q,T,Z）。交换位置为DFR,根据字母先后顺序依次将编码移到DFR位置再进行3步交换步骤。	D R U R' D' R U' R'		
+C	JOA	R.F(B).R.	中	R' B:[R U' R',D']		R' B R U' R' D' R U R' D B' R		
+C	JOB	DU	下	R:[U2,R D' R']		R U2 R D' R' U2 R D R' R'		
+C	JOC	Others	上	R2 D':[R U' R',D']		R2 D' R U' R' D' R U R' D2 R2		
+C	JOD	Others	中	R' U' D' R:[D,R U' R']		R' U' D' R D R U' R' D' R U R' R' D U R		
+C	JOE	DU	下	R:[U,R D' R']		R U R D' R' U' R D R' R'		
+C	JOF	Others	下	R2 U:[R' U' R,D']		R2 U R' U' R D' R' U R U' D R2		
+C	JOG	R.F(B).R.	中	R' B:[R U R',D']		R' B R U R' D' R U' R' D B' R		
+C	JOH	R.U.	中/下	R U':[D',R' U R]		R D' U' R' U R D R' U' R U R'		
+C	JOI	UU	上	U' D R':[U2,R' D R]		U' D R' U2 R' D R U2 R' D' R R D' U		
+C	JOM	BT	中	D R:[F2,R' U R U']		D R F2 R' U R U' F2 U R' U' D'		
+C	JON	DU	中/下	D R D:[R' D' R,U]		D R D R' D' R U R' D R D' U' R' D'		
+C	JOR	Others	中	R U' R':[D',R' U R]		R U' R' D' R' U R D R' U' R R U R'		
+C	JOS	Others	上	R2 D':[R U R',D']		R2 D' R U R' D' R U' R' D2 R2		
+C	JOT	R.U.	中/下	R U' D':[R' U R,D2]		R U' D' R' U R D2 R' U' R D' U R'		
+C	JOW	R.U.	中/下	R U' D':[R' U R,D']		R U' D' R' U R D' R' U' R D2 U R'	r D r' F2 r D' r' F2	[r D r',F2]
+C	JOX	R.U.	中	R U' R' U':[R D' R',U2]		R U' R' U' R D' R' U2 R D R' U' R U R'		
+C	JOY	UU	上	U' D R':[U,R' D R]		U' D R' U R' D R U' R' D' R R D' U		
+C	JOZ	DU	下	R:[U',R D' R']	setup做R之后，J Z到H K位置形成直达层	R U' R D' R' U R D R' R'		
+C	JPA	Base	中	U2 D':[R D R',U]		U2 D' R D R' U R D' R' D U	U' D R' D R U R' D' R D'	D:[U',R' D R]
+C	JPB	BT	中	D2 R':[F2,R D' R' D]		D2 R' F2 R D' R' D F2 D' R D'		
+C	JPC	R.U.	中/上	D R' U':[R U R',D]		D R' U' R U R' D R U' R' U D' R D'		
+C	JPD	Base	中	U D':[R D R',U2]		U D' R D R' U2 R D' R' D U		
+C	JPE	UU	上	U D R':[R' D R,U']		U D R' R' D R U' R' D' R U R D' U'		
+C	JPF	UU	中/上	U' R' U':[U',R D' R']		U' R' U2 R D' R' U R D R' U R U		
+C	JPG	Base	中/下	D':[R D R',U']		D' R D R' U' R D' R' D U		
+C	JPH	R.U.	中/上	D R' U:[R U' R',D]		D R' U R U' R' D R U R' U' D' R D'		
+C	JPI	UU	中/上	U' R' U:[R D' R',U2]		U' R' U R D' R' U2 R D R' U R U		
+C	JPM	Base	中/下	U D:[D,R U' R']		U D2 R U' R' D' R U R' D' U'		
+C	JPN	R.D.	中/下	D' R D:[R' U' R,D2]		D' R D R' U' R D2 R' U R D R' D		
+C	JPR	Others	下	U R:[D2,R U' R']		U R D2 R U' R' D2 R U R' R' U'		
+C	JPS	Base	中/上	U':[D',R' U' R]		D' U' R' U' R D R' U R U		
+C	JPT	R.D.	中	D' R D R':[R' D' R,U]	PT通过4步将P移动到G，变成GZ公式。	D' R D R' R' D' R U R' D R U' R D' R' D	U' R' U' L U R U' L' U2	U':[R',U' L U]
+C	JPW	Others	左上	l U' D':[R D R',U2]		l U' D' R D R' U2 R D' R' D U' l'	U' D' R2 D2 R U R' D2 R U' R U D	U' D' R':[R' D2 R,U]
+C	JPX	UU	上	U' D' R':[R' D R,U]		U' D' R' R' D R U R' D' R U' R D U		
+C	JPY	Base	中/下	U:[D2,R U' R']		D2 U R U' R' D2 R U R' U'		
+C	JPZ	R.D.	中/上	U R' D':[D',R U' R']		U R' D2 R U' R' D R U R' D R U'		
+C	JQA	Base	中	U':[U',R D' R']		U2 R D' R' U R D R' U		
+C	JQB	DU	下	R D':[U2,R D R']		R U2 D' R D R' U2 R D' R' D R'	R U' D R' D R U2 R' D' R U' D' R'	R U' D:[R' D R,U2]
+C	JQC	R.U.	中/下	U' R U':[R' U R,D']		U' R U' R' U R D' R' U' R U D R' U		
+C	JQD	Base	中	U:[R D' R',U2]		U R D' R' U2 R D R' U		
+C	JQE	DU	下	R D':[U,R D R']		R U D' R D R' U' R D' R' D R'		
+C	JQF	DU	中	U2 R:[R D' R',U]		U2 R R D' R' U R D R' U' R' U2		
+C	JQG	Base	中/下	[R D' R',U']		R D' R' U' R D R' U		
+C	JQH	R.U.	中/下	U' R U:[R' U' R,D']		U' R U R' U' R D' R' U R U' D R' U		
+C	JQI	DU	下	U R:[R D' R',U2]		U R R D' R' U2 R D R' U2 R' U'		
+C	JQM	BT	中	R' D:[F',D' R D R']		R' D F' D' R D R' F R D'		
+C	JQN	Base	中/下	D:[D,R U R']		D2 R U R' D' R U' R' D'		
+C	JQR	R.D.	中	R D' R':[R' D R,U]		R D' R' R' D R U R' D' R U' R D R'		
+C	JQS	R.D.	中/下	R D':[R' U' R,D2]		R D' R' U' R D2 R' U R D' R'		
+C	JQT	Base	中/下	D':[D',R U R']		D2 R U R' D R U' R' D		
+C	JQW	R.U.	中	D R U' R':[R' D R,U2]		D R U' R' R' D R U2 R' D' R U2 R U R' D'		
+C	JQX	DU	下	D2 R:[R D' R',U']		D2 R R D' R' U' R D R' U R' D2		
+C	JQY	DU	下	U R U':[R D' R',U']		U R U' R D' R' U' R D R' U2 R' U'	U' R U R' U2 R D' R' U2 R U' D R' U	U' R U:[R' U2 R,D']
+C	JQZ	Base	中/下	[D2,R U R']		D2 R U R' D2 R U' R'		
+C	JRA	R.D.	中	R D' R':[U',R' D R]		R D' R' U' R' D R U R' D' R R D R'		
+C	JRB	DU	下	D R:[U2,R D' R']		D R U2 R D' R' U2 R D R' R' D'		
+C	JRC	Others	中	R U' R':[R' U R,D]		R U' R' R' U R D R' U' R D' R U R'		
+C	JRD	R.D.	中	R D' R':[U2,R' D R]		R D' R' U2 R' D R U2 R' D' R R D R'		
+C	JRE	DU	下	D R:[U,R D' R']		D R U R D' R' U' R D R' R' D'		
+C	JRF	Others	下	U R:[R U' R',D']		U R R U' R' D' R U R' D R' U'		
+C	JRG	BT	中	[R D' R' U R' D R,U']		R D' R' U R' D R U' R' D' R U' R D R' U		
+C	JRH	R.U.	中/下	D R U':[D',R' U R]		D R D' U' R' U R D R' U' R U R' D'		
+C	JRI	Others	中	f':[R D R',U2]		f' R D R' U2 R D' R' U2 f		
+C	JRM	Others	下	U R:[R U' R',D]		U R R U' R' D R U R' D' R' U'		
+C	JRN	DU	下	D R:[U',R D' R']		D R U' R D' R' U R D R' R' D'		
+C	JRO	Others	中	R U' R':[R' U R,D']		R U' R' R' U R D' R' U' R D R U R'		
+C	JRP	Others	下	U R:[R U' R',D2]		U R R U' R' D2 R U R' D2 R' U'		
+C	JRQ	R.D.	中	R D' R':[U,R' D R]		R D' R' U R' D R U' R' D' R R D R'		
+C	JRW	Others	中	R U' R':[R' U R,D2]		R U' R' R' U R D2 R' U' R D2 R U R'		
+C	JRX	BT	下/上	[D',R2 U R2 U' R2]		D' R2 U R2 U' R2 D R2 U R2 U' R2		
+C	JRY	DU	中/下	U R D':[R' D R,U']		U R D' R' D R U' R' D' R D U R' U'		
+C	JRZ	R.U.	中	D' R U' R':[U2,R' D R]		D' R U' R' U2 R' D R U2 R' D' R R U R' D		
+C	JSA	Base	中	U':[U',R D R']		U2 R D R' U R D' R' U		
+C	JSB	DU	中/下	R U' D':[R' D R,U2]		R U' D' R' D R U2 R' D' R D U' R'		
+C	JSC	UU	上	R' U:[R' D' R,U2]		R' U R' D' R U2 R' D R U R		
+C	JSD	Base	中	U:[R D R',U2]		U R D R' U2 R D' R' U		
+C	JSE	DU	中/下	R U2 D':[R' D R,U']		R U2 D' R' D R U' R' D' R D U' R'		
+C	JSF	UU	上	R' U:[R' D' R,U]		R' U R' D' R U R' D R U2 R		
+C	JSG	Base	中/下	[R D R',U']		R D R' U' R D' R' U		
+C	JSH	R.U.	中/下	U' R U:[R' U' R,D]		U' R U R' U' R D R' U R U' D' R' U		
+C	JSI	DU	中/下	U R U:[R' D' R,U2]		U R U R' D' R U2 R' D R U R' U'		
+C	JSM	Base	中/下	U D':[R U' R',D2]		U D' R U' R' D2 R U R' D' U'		
+C	JSN	R.D.	中/下	R D:[R' U' R,D]		R D R' U' R D R' U R D2 R'		
+C	JSO	Others	上	R2 D':[D',R U R']		R2 D2 R U R' D R U' R' D R2		
+C	JSP	Base	中/上	U':[R' U' R,D']		U' R' U' R D' R' U R U D		
+C	JSQ	R.D.	中/下	R D:[R' U' R,D2]	以下为R.D.类 D层9步交换子，空穴为UBR。 空格以上D层为121型 空格以下D层为112/211型	R D R' U' R D2 R' U R D R'		
+C	JSW	UU	上	U' R':[R' D R,U]		U' R' R' D R U R' D' R U' R U		
+C	JSX	R.U.	中	R U' D' R':[R' D R,U2]		R U' D' R' R' D R U2 R' D' R U2 R D U R'		
+C	JSY	Base	中/下	U:[D',R U' R']		D' U R U' R' D R U R' U'		
+C	JSZ	R.U.	中/上	R' U:[D',R U R']		R' D' U R U R' D R U' R' U' R		
+C	JTA	Base	中	U2 D:[R D' R',U]		U2 D R D' R' U R D R' D' U	U' D' R' D' R U R' D R D	D':[U',R' D' R]
+C	JTB	DU	中/下	R U':[R' D' R,U2]		R U' R' D' R U2 R' D R U' R'		
+C	JTC	Others	下	F:[R U R',D']		F R U R' D' R U' R' D F'		
+C	JTD	Base	中	U D:[R D' R',U2]		U D R D' R' U2 R D R' D' U		
+C	JTE	DU	中/下	R U:[U,R' D' R]		R U2 R' D' R U' R' D R U' R'		
+C	JTF	Others	上	D' R':[D,R' U R]		D' R' D R' U R D' R' U' R R D		
+C	JTG	Base	中/下	D:[R D' R',U']		D R D' R' U' R D R' D' U		
+C	JTH	R.U.	中/下	R U':[D,R' U R]		R D U' R' U R D' R' U' R U R'		
+C	JTI	DU	下	U D R:[R D' R',U2]		U D R R D' R' U2 R D R' U2 R' D' U'		
+C	JTM	R.U.	中	R' U':[D,R U2 R']		R' U' D R U2 R' D' R U2 R' U R	U R' U' R' D R U2 R' D' R U' R U'	U R' U':[R' D R,U2]
+C	JTN	Base	中/下	D':[R U R',D2]		D' R U R' D2 R U' R' D'		
+C	JTO	R.U.	中/下	R U' D:[R' U R,D2]		R U' D R' U R D2 R' U' R D U R'		
+C	JTP	R.D.	中	D' R D R':[U,R' D' R]		D' R D R' U R' D' R U' R' D R R D' R' D	U2 L U R' U' L' U R U	U':[U' L U,R']
+C	JTQ	Base	中/下	D':[R U R',D']		D' R U R' D' R U' R' D2		
+C	JTW	DU	下	D' R:[R D' R',U']		D' R R D' R' U' R D R' U R' D		
+C	JTX	R.U.	中	R U' R' U':[R D R',U2]		R U' R' U' R D R' U2 R D' R' U' R U R'		
+C	JTY	R.D.	中/下	D R D':[R' U' R,D2]		D R D' R' U' R D2 R' U R D' R' D'		
+C	JTZ	Base	中/下	[D',R U R']		D' R U R' D R U' R'		
+C	JWA	R.F(B).R.	中	U' R F':[R' U' R,D]		U' R F' R' U' R D R' U R D' F R' U		
+C	JWB	DU	中/下	R U' D:[R' D' R,U2]		R U' D R' D' R U2 R' D R D' U' R'		
+C	JWC	R.U.	中/上	U' R' U:[D,R U' R']		U' R' D U R U' R' D' R U R' U' R U		
+C	JWD	R.F(B).R.	中	R F' R' U:[R D R',U2]		R F' R' U R D R' U2 R D' R' U R F R'		
+C	JWE	DU	下	D' R:[U,R D' R']		D' R U R D' R' U' R D R' R' D		
+C	JWF	UU	上	U' R':[U',R' D R]		U' R' U' R' D R U R' D' R R U		
+C	JWG	R.F(B).R.	中	R F':[D,R' U' R]		R F' D R' U' R D' R' U R F R'		
+C	JWH	R.U.	中/下	D' R U':[D',R' U R]		D' R D' U' R' U R D R' U' R U R' D	U D R' U' D' R U R' D R U' R' U R U' D'	U D R' U':[D',R U R']
+C	JWI	UU	上	U' R':[U2,R' D R]		U' R' U2 R' D R U2 R' D' R R U		
+C	JWO	R.U.	中/下	R U' D':[D',R' U R]		R U' D2 R' U R D R' U' R D U R'	F2 r D r' F2 r D' r'	[F2,r D r']
+C	JWP	Others	左上	l U D':[R D R',U2]		l U D' R D R' U2 R D' R' D U l'	U' D' R' U R' D2 R U' R' D2 R2 U D	U' D' R':[U,R' D2 R]
+C	JWQ	R.U.	中	D R U' R':[U2,R' D R]		D R U' R' U2 R' D R U2 R' D' R R U R' D'		
+C	JWR	Others	中	R U' R':[D2,R' U R]		R U' R' D2 R' U R D2 R' U' R R U R'		
+C	JWS	UU	上	U' R':[U,R' D R]		U' R' U R' D R U' R' D' R R U		
+C	JWT	DU	下	D' R:[U',R D' R']		D' R U' R D' R' U R D R' R' D		
+C	JWX	BT	下/上	[D,R2 U R2 U' R2]		D R2 U R2 U' R2 D' R2 U R2 U' R2		
+C	JWY	BT	中	R:[F2,R' U R U']		R F2 R' U R U' F2 U R' U'		
+C	JWZ	DU	中/下	R D:[R' D' R,U]		R D R' D' R U R' D R D' U' R'		
+C	JXA	R.D.	中	D R D' R':[U',R' D R]		D R D' R' U' R' D R U R' D' R R D R' D'	U' R' D R U' R D' R' U R D R' U R' D' R	[U',R' D R U' R D' R']
+C	JXB	DU	中/下	D' R U' D:[R' D' R,U2]		D' R U' D R' D' R U2 R' D R D' U' R' D		
+C	JXC	R.U.	中	R U' R':[U2,R' D' R]		R U' R' U2 R' D' R U2 R' D R R U R'		
+C	JXD	R.D.	中	D R D' R':[U2,R' D R]		D R D' R' U2 R' D R U2 R' D' R R D R' D'	U R' D R R D' R' U2 R D R' U2 R' D' R U'	U R' D R:[R D' R',U2]
+C	JXE	DU	下	D2 R:[U,R D' R']		D2 R U R D' R' U' R D R' R' D2	U R' D' R' D' R U' R' D R U D R U'	U R' D':[R' D' R,U']
+C	JXF	UU	上	U' D' R':[U',R' D R]		U' D' R' U' R' D R U R' D' R R D U		
+C	JXG	BT	中	[U,R' D R U' R D' R']		U R' D R U' R D' R' U' R D R' U R' D' R		
+C	JXH	R.U.	中/上	U R' U':[D',R U R']		U R' D' U' R U R' D R U' R' U R U'		
+C	JXI	UU	上	U' D' R':[U2,R' D R]		U' D' R' U2 R' D R U2 R' D' R R D U		
+C	JXM	DU	中/下	U D R D':[R' D R,U']		U D R D' R' D R U' R' D' R D U R' U' D'	U' R' D R U' R D' R' U R D R' R' D' R U	U' R' D R:[U',R D' R']
+C	JXN	R.U.	中	R U' R':[U2,R' D R]		R U' R' U2 R' D R U2 R' D' R R U R'		
+C	JXO	R.U.	中	R U' R' U:[R D' R',U2]		R U' R' U R D' R' U2 R D R' U R U R'		
+C	JXP	UU	上	U' D' R':[U,R' D R]		U' D' R' U R' D R U' R' D' R R D U		
+C	JXQ	DU	下	D2 R:[U',R D' R']		D2 R U' R D' R' U R D R' R' D2		
+C	JXR	BT	下/上	[R2 U R2 U' R2,D']		R2 U R2 U' R2 D' R2 U R2 U' R2 D		
+C	JXS	R.U.	中	R U' D' R':[U2,R' D R]		R U' D' R' U2 R' D R U2 R' D' R R D U R'		
+C	JXT	R.U.	中	R U' R' U:[R D R',U2]		R U' R' U R D R' U2 R D' R' U R U R'		
+C	JXW	BT	下/上	[R2 U R2 U' R2,D]		R2 U R2 U' R2 D R2 U R2 U' R2 D'		
+C	JYA	Base	中/上	D':[U',R' D R]		U' D' R' D R U R' D' R D		
+C	JYB	BT	中	R':[F2,R D' R' D]		R' F2 R D' R' D F2 D' R D		
+C	JYC	BT	中	R:[R' U R U',F]		U R U' F U R' U' R F' R'		
+C	JYD	Base	中	D':[U2,R' D R]		U2 D' R' D R U2 R' D' R D		
+C	JYE	R.U.	中	R U R':[U',R' D' R]		R U R' U' R' D' R U R' D R R U' R'		
+C	JYF	UU	中/上	U' R' U':[U',R D R']		U' R' U2 R D R' U R D' R' U R U		
+C	JYG	Base	中/上	D':[U,R' D R]		U D' R' D R U' R' D' R D		
+C	JYH	R.U.	中/上	D' R' U:[R U' R',D]		D' R' U R U' R' D R U R' U' D' R D		
+C	JYI	UU	中/上	U' R' U:[R D R',U2]		U' R' U R D R' U2 R D' R' U R U		
+C	JYM	Base	中/下	U:[R U' R',D]		U R U' R' D R U R' U' D'		
+C	JYN	BT	中	R':[F',R D' R' D]		R' F' R D' R' D F D' R D		
+C	JYO	UU	上	U' D R':[R' D R,U]		U' D R' R' D R U R' D' R U' R D' U		
+C	JYP	Base	中/下	U:[R U' R',D2]		U R U' R' D2 R U R' U' D2		
+C	JYQ	DU	下	U R U':[U',R D' R']		U R U2 R D' R' U R D R' U R' U'	U' R D' U R' U2 R D R' U2 R U' R' U	U' R U:[D',R' U2 R]
+C	JYR	DU	中/下	U R D':[U',R' D R]		U R U' D' R' D R U R' D' R D R' U'		
+C	JYS	Base	中/下	U:[R U' R',D']		U R U' R' D' R U R' U' D		
+C	JYT	R.D.	中/下	D R D:[R' U' R,D2]		D R D R' U' R D2 R' U R D R' D'		
+C	JYW	BT	中	R:[R' U R U',F2]		U R U' F2 U R' U' R F2 R'		
+C	JZA	Base	中/上	[U',R' D' R]		U' R' D' R U R' D R		
+C	JZB	DU	中/下	D R U':[R' D' R,U2]		D R U' R' D' R U2 R' D R U' R' D'		
+C	JZC	R.U.	中/上	R' U':[R U R',D']		R' U' R U R' D' R U' R' U D R		
+C	JZD	Base	中	[U2,R' D' R]		U2 R' D' R U2 R' D R		
+C	JZE	DU	中/下	D R U:[U,R' D' R]		D R U2 R' D' R U' R' D R U' R' D'		
+C	JZF	Others	上	R':[D,R' U R]		R' D R' U R D' R' U' R R	R B' R2 D' R U R' D R U' R B R'	R B' R':[R' D' R,U]
+C	JZG	Base	中/上	[U,R' D' R]		U R' D' R U' R' D R		
+C	JZH	R.U.	中/上	R' U:[R U' R',D']		R' U R U' R' D' R U R' U' D R		
+C	JZI	R.F(B).R.	中	R' F' R U':[R' D' R,U2]		R' F' R U' R' D' R U2 R' D R U' R' F R		
+C	JZM	R.D.	中/上	U R' D':[R U' R',D2]		U R' D' R U' R' D2 R U R' D' R U'		
+C	JZN	Base	中/下	[R U R',D]		R U R' D R U' R' D'		
+C	JZO	DU	下	R:[R D' R',U']		R R D' R' U' R D R' U R'		
+C	JZP	R.D.	中/上	U R' D':[R U' R',D']		U R' D' R U' R' D' R U R' D2 R U'		
+C	JZQ	Base	中/下	[R U R',D2]		R U R' D2 R U' R' D2		
+C	JZR	R.U.	中	D' R U' R':[R' D R,U2]		D' R U' R' R' D R U2 R' D' R U2 R U R' D		
+C	JZS	R.U.	中/上	R' U:[R U R',D']		R' U R U R' D' R U' R' U' D R		
+C	JZT	Base	中/下	[R U R',D']		R U R' D' R U' R' D		
+C	JZW	DU	中/下	R D:[U,R' D' R]		R U D R' D' R U' R' D R D' R'		
+E	GAC	M4	中	M2 U:[M,U2]		M2 U M U2 M' U M2	R' E R U2 R' E' R U R' E R U R' E' R	R' E R U':[U',R' E' R]
+E	GAD	S8	中	[S',L F' L']		S' L F' L' S L F L'		
+E	GAE	S4	中	R2 U':[R2,S]		R2 U' R2 S R2 S' U R2	R' E R U R' E' R U2 R' E R U R' E' R	R' E R U:[R' E' R,U2]
+E	GAF	M8	中	R':[M,U' R U]		R' M U' R U M' U' R' U R	U R' F R S R' F' R S' U'	U:[R' F R,S]
+E	GAI	S8	中	L F L':[S',L F2 L']		L F L' S' L F2 L' S L F L'	S R' F R2 E R2 E' F' R S'	S R' F:[R2,E]
+E	GAJ	M8	中	R:[M',U' R' U]		R M' U' R' U M U' R U R'		
+E	GAK	S4	中	l F L':[S',L2]		l F L' S' L2 S L' F' l'	U' L' U' L U L U L U' L'	
+E	GAL	U8	中	U:[L E L',U]		U L E L' U L E' L' U2		
+E	GAM	M8	中	R:[M2,U' R' U]		R M2 U' R' U M2 U' R U R'	R U R' U' M U2 M' U' R U' R'	R U R' U':[M,U2]
+E	GAN	Others	中		MU8，发现均是MU交替且U层方向一致，M，M'交替，将U层方向和M层方向与字母绑定即可。	U M U M' U M U M'		
+E	GAO	Others	中	[U',R' E R2 E' R']	空穴为UR/UL 规律：缓冲不在空穴，联系步骤5步，GO举例，G不能5步打O，所以先做1步直达层。反之亦然	U' R' E R2 E' R' U R E R2 E' R	R' U R' S R2 S' R' U' R	R' U R':[S,R2]
+E	GAP	U8	中	[U',R' E' R]	由于U层两个字母形成U层直达，所以核心思路看非U层字母打哪个块，需要理解记忆U层如何转动。 以AGP举例，P要打A，所以要做U'将A挪到UR，做3步，后续自然得出。 ☆规律☆：理解记忆U层步骤（以右手公式为例）：本页可根据U层转动度数分为两大类（数字仅代表转动度数（1/2对应U/U2），而不包含转动方向）： 一.11型：条件为U层字母包涵G，且与U层另一个字母（这里是缓冲A）相邻（差一步U）。即本分页中即带G的那一类，U层转动一定是U U'或者逆向。 二.112（211）型、121型（顺逆看做一类） 条件是不带G；U层两个字母相邻（差U）的是112型，即U U U2或者U2 U U。如AC*；U层两字母相对（差U2）的是121型如本页中的AE*；且两个1的转动方向一定是相同的，因此只需想懂是哪个型并知道一个U的方向就全知道了。 这个思路在角块中的应用非常广泛，推荐搞懂！ ①以AGP举例，AG含G，是11型。看P要打A，所以要将A转到G位置，是U'，所以是U' U。 ②以ACP举例，AC不含G且相邻，说明是112/211型。看P要打A，所以要将A转到G位置，是U'，所以是112型：U' U' U2。逆向的APC是U2 U U。 ③以AEP举例，AE不含G且相对，说明是121型。看P要打A，所以要将A转到G位置，是U'，所以是U' U2 U'。逆向的APE就是U U2 U。	U' R' E' R U R' E R		
+E	GAQ	U8	中	E':[U',R' E R]		E' U' R' E R U R' E' R E		
+E	GAR	U8	中	U:[L E' L',U]		U L E' L' U L E L' U2		
+E	GAS	U8	中	[U',R E2 R']		U' R E2 R' U R E2 R'		
+E	GAT	U8	中	[U',R' E R]		U' R' E R U R' E' R		
+E	GAW	U8	中	[U',R' E2 R]		U' R' E2 R U R' E2 R		
+E	GAX	U8	中	[U',R E' R']		U' R E' R' U R E R'		
+E	GAY	U8	中	u':[R E' R',U]		u' R E' R' U R E R' U' U E'		
+E	GAZ	U8	中	U:[L' E L,U]		U L' E L U L' E' L U2		
+E	GBC	S8	中	[R' F R,S]		R' F R S R' F' R S'		
+E	GBD	M4	中	M U':[M',U2]		M U' M' U2 M U' M'	R F R' S R2 S' R' F' R'	R F R':[S,R2]
+E	GBE	S4	中	S U':[R2,S]		S U' R2 S R2 S' U S'	U M U' M' U2 M U' M' U'	U M U':[M',U2]
+E	GBF	M8	中	R:[U R' U',M']		R U R' U' M' U R U' M R'		
+E	GBI	E4	中	R F:[R2,E]		R F R2 E R2 E' F' R'	D R' F R S' R' F' R S D'	D:[R' F R,S']
+E	GBJ	S8	中	U D':[S,L F' L']		U D' S L F' L' S' L F L' U' D	R' F' R U' R' E R U R' E' F R	R' F':[R U' R',E]
+E	GBK	S8	中	R2:[R F R',S']	空穴为DR/DL 规律：缓冲不在空穴，法一。以HK举例，联系步骤是1步直达层，H不能1步打K，所以先做3步交换步骤，反之亦然	R2 R F R' S' R F' R' S R2		
+E	GBL	S4	中	L F' L':[S',L2]		L F' L' S' L2 S L' F L'	R F R S' R2 S R F' R'	R F R:[S',R2]
+E	GBM	S8	中	D':[R' F R,S']		D' R' F R S' R' F' R S D	R M U R' U' M2 U R U' r'	R M:[U R' U',M2]
+E	GBN	S8	中	U D:[S,L F' L']		U D S L F' L' S' L F L' D' U'		
+E	GBO	S8	中	[R' F R,S']		R' F R S' R' F' R S		
+E	GBP	E4	中	F' R:[E,R2]	此类略有不同，应当做5步双空穴处理。setup思路是将A挪到G，第三个字母挪到O，即可形成。 ☆规律☆：法一，同样是看双字母的相对位置，先往首字母的位置转再做E层。以OS举例，O在S层，S在F层。首字母是O，更靠后，所以要往后边（R）转再做E，后续自然得出。如果是SO，就是往S的方向转，后续自然得出 以此类中的AHP介绍法二，缓冲不在外层步骤，就看首字母是什么，然后把他挪到缓冲的对角线上再做中层步骤就行。这里A setup完到了FR位置，所以要把首字母H转到BL位置再做E层步骤	F' R E R2 E' R F	R' E R U' R' E' R2 E R' U R' E' R	R' E R U' R':[E',R2]
+E	GBQ	S8	中	l F2 l':[S',l F' l']		l F2 l' S' l F' l' S l F' l'	R' U' E' R' E R2 E' R' U E R	R' U' E' R':[E,R2]
+E	GBR	U8	中	S':[U,L E' L']		S' U L E' L' U' L E L' S		
+E	GBS	E4	中	S U' R:[E,R2]		S U' R E R2 E' R U S'		
+E	GBT	M4	左下	M L' U':[M',U2]		M L' U' M' U2 M U' M' L	U' r' E R U' R' E' R U M' U	U' r':[E,R U' R']
+E	GBW	E4	中	S U' R':[E',R2]		S U' R' E' R2 E R' U S'		
+E	GBX	M4	左上	l U':[M',U2]		l U' M' U2 M U' l'	R F E' R2 E R2 F' R'	R F:[E',R2]
+E	GBY	E4	下	R u' R:[E',R2]		R u' R E' R2 E R u R'		
+E	GBZ	U8	中	S':[U,L' E L]		S' U L' E L U' L' E' L S		
+E	GCA	M4	中	M2 U':[M,U2]		M2 U' M U2 M' U' M2	R' E R U' R' E' R U' R' E R U2 R' E' R	R' E R U':[R' E' R,U']
+E	GCB	S8	中	[S,R' F R]	空穴为UR/UL。以ACH举例，A不在直达层，A要去C，C先做直达层S到UR，再做交换步骤。 规律：缓冲不在空穴，是法一。双字母联系步骤为S。 如果是CH，先试1步直达层，发现行，所以先1步。 如果是HC，也试1步直达层，不行，所以是先3步。	S R' F R S' R' F' R		
+E	GCE	S4	中	L2 U:[L2,S']		L2 U L2 S' L2 S U' L2		
+E	GCF	M8	中	l:[U L' U',M']		L M U L' U' M' U L U' L'		
+E	GCI	S8	中	R' F' R:[S,R' F2 R]	此类空穴均为UR/UL。只需看在S层的字母要去谁，做交换步骤挪过去即可。 以ACI举例，在S层的是C，C要去I，做R' F' R'让I到UR位置，C打I，之后让A去UR，同理后面。 规律：实际上跟U8类的规律差不多。不过这里只用判断112（211）型和121型，只是从U层变成了F层。 ①空格上面一半发现AI是相对的，所以是121型，以CI举例，C要打I，所以R' F' R到H位置。那么F层步骤就是F' F2 F'，逆公式就是F F2 F了。 ②空格下面一半S和从A setup下来的J是相邻的。所以是112（211）型,以DS举例，D要打S，所以R' F2 R到G为止，确定是211，这个时候J转到了B位置，所以下一个是F。F层操作就是F2 F F，逆公式反一下就行。	R' F' R S R' F2 R S' R' F' R		
+E	GCJ	M8	中	l':[U L U',M]		L' M' U L U' M U L' U' L		
+E	GCK	Others	中	[U,L' E L2 E' L']		U L' E L2 E' L' U' L E L2 E' L	L U' L S' L2 S L U L'	L U' L:[S',L2]
+E	GCL	U8	中	[U,L E L']		U L E L' U' L E' L'		
+E	GCM	M8	中	L':[M2,U L U']		L' M2 U L U' M2 U L' U' L	U D' R U R' U' R' U' R' U R D	
+E	GCN	Others	中			U' M U' M' U' M U' M'		
+E	GCO	S4	中	r' F' R:[S,R2]		r' F' R S R2 S' R F r	U R U R' U' R' U' R' U R	
+E	GCP	U8	中	U':[R' E' R,U']		U' R' E' R U' R' E R U2		
+E	GCQ	U8	中	[U,L' E2 L]		U L' E2 L U' L' E2 L		
+E	GCR	U8	中	[U,L E' L']		U L E' L' U' L E L'		
+E	GCS	U8	中	E:[U,L E' L']		E U L E' L' U' L E L' E'		
+E	GCT	U8	中	U':[R' E R,U']		U' R' E R U' R' E' R U2		
+E	GCW	U8	中	u:[L' E L,U']		u L' E L U' L' E' L U U' E		
+E	GCX	U8	中	U':[R E' R',U']		U' R E' R' U' R E R' U2		
+E	GCY	U8	中	[U,L E2 L']		U L E2 L' U' L E2 L'		
+E	GCZ	U8	中	[U,L' E L]		U L' E L U' L' E' L		
+E	GDA	S8	中	[L F' L',S']		L F' L' S' L F L' S		
+E	GDB	M4	中	M U:[M',U2]	法二，注意setup后A要去哪个块即将哪个块移到对角线UB/UF上，后续同理。	M U M' U2 M U M'	R F R S R2 S' R F' R'	R F R:[S,R2]
+E	GDE	S4	中	S' U:[L2,S']		S' U L2 S' L2 S U' S	U' M U M' U2 M U M' U	U' M U:[M',U2]
+E	GDF	M8	中	L':[U' L U,M']		L' U' L U M' U' L' U M L	U' S R' F R S' R' F' R U	U':[S,R' F R]
+E	GDI	E4	中	L' F':[L2,E']		L' F' L2 E' L2 E F L	D' L F' L' S L F L' S' D	D':[L F' L',S]
+E	GDJ	S8	中	U' D:[S',R' F R]		U' D S' R' F R S R' F' R U D'	L F L' U L E' L' U' L E F' L'	L F:[L' U L,E']
+E	GDK	S8	中	[L F' L',S]		L F' L' S L F L' S'		
+E	GDL	E4	中	F L':[E',L2]		F L' E' L2 E L' F'	S' U' R2 S' R2 S U S	S' U':[R2,S']
+E	GDM	S8	中	D:[L F' L',S]		D L F' L' S L F L' S' D'		
+E	GDN	S8	中	U' D':[S',R' F R]		U' D' S' R' F R S R' F' R D U	D' R' F R S R2 S' R F' R D	D' R' F R:[S,R2]
+E	GDO	S8	中	L2:[L' F' L,S]		L2 L' F' L S L' F L S' L2		
+E	GDP	S4	中	R' F R:[S,R2]	同S4的法一 规律：以DP举例，D更靠上，所以R' F完先往上转R，后续自然得出。 AQY（包括在上面的AJO及镜像）开始的那一类属于法二，所以要看首字母是啥，然后把它转到缓冲的对角线上，再做S层步骤。	R' F R S R2 S' R F' R	U' S' R' F R S R' F' R U	U':[S',R' F R]
+E	GDQ	E4	中	S' U L':[E',L2]		S' U L' E' L2 E L' U' S		
+E	GDR	M4	下	R M U:[M',U2]		R M U M' U2 M U R' M'	R2 F R S R2 S' R F' R2	R2 F R:[S,R2]
+E	GDS	S8	中	r' F2 r:[S,r' F r]		r' F2 r S r' F r S' r' F r	r U r' E r U r' E' r U2 r'	r U:[r' E r,U]
+E	GDT	U8	中	S:[U',R' E R]		S U' R' E R U R' E' R S'		
+E	GDW	E4	左下	L' u L':[E,L2]		L' u L' E L2 E' L' u' L	U' R F R2 E' R2 E F' R' U	U' R F:[R2,E']
+E	GDX	U8	中	S:[U',R E' R']		S U' R E' R' U R E R' S'		
+E	GDY	E4	中	S' U L:[E,L2]		S' U L E L2 E' L U' S		
+E	GDZ	M4	上	r' U:[M',U2]		r' U M' U2 M U r	F R S R2 S' R F'	F R:[S,R2]
+E	GEA	S4	中	R2 U:[R2,S]		R2 U R2 S R2 S' U' R2	R' E R U' R' E' R U2 R' E R U' R' E' R	R' E R U':[R' E' R,U2]
+E	GEB	S4	中	S U':[S,R2]		S U' S R2 S' R2 U S'	U M U M' U2 M U M' U'	U M U:[M',U2]
+E	GEC	S4	中	L2 U':[L2,S']		L2 U' L2 S' L2 S U L2		
+E	GED	S4	中	S' U:[S',L2]		S' U S' L2 S L2 U' S	U' M U' M' U2 M U' M' U	U' M U':[M',U2]
+E	GEI	M4	中	[U2,M']	规律：看底层那个字母要去哪个块，就把那个块挪到对角线位置，以AEI举例，I要去A，所以做U2把A挪到I的对角线E上，再做M'，反之同理。 IM这俩肌肉记忆吧	U2 M' U2 M		
+E	GEJ	E8	中	R' F':[R U R',E]		R' F' R U R' E R U' R' E' F R	U' M U M U2 M' U M' U	U' M U:[M,U2]
+E	GEK	S4	中	U:[S',L2]		U S' L2 S L2 U'		
+E	GEL	U8	中	U:[L E L',U2]		U L E L' U2 L E' L' U		
+E	GEM	M4	中	[M,U2]		M U2 M' U2		
+E	GEN	S4	中	U' R' B R:[S,R2]		U' R' B R S R2 S' R B' R U	U M' U M' U2 M U M U'	U M' U:[M',U2]
+E	GEO	S4	中	U':[S,R2]	S层方向是把非R层的字母往R层转的方向。 规律：同E4类法一，以EO举例，看EO的相对位置，E在U层，O在D层，所以E更靠上。因此首字母为E时要向上转再做S层。由于此时已经是正手位的中立起手，不能在往上转，所以直接做E再接R2。反之OE就是往下转，也就是先R2再E。 EG/GE,EC/CE的U层转动方向记忆技巧：直接看首字母到第二个字母的方向就是U层方向	U' S R2 S' R2 U		
+E	GEP	U8	中	U':[R' E' R,U2]		U' R' E' R U2 R' E R U'		
+E	GEQ	S4	中/上	R' U':[S,R2]		R' U' S R2 S' R2 U R		
+E	GER	U8	中	U:[L E' L',U2]		U L E' L' U2 L E L' U		
+E	GES	S4	中/左上	L U:[S',L2]		L U S' L2 S L2 U' L'		
+E	GET	U8	中	U':[R' E R,U2]		U' R' E R U2 R' E' R U'		
+E	GEW	S4	中/左下	L' U:[S',L2]		L' U S' L2 S L2 U' L		
+E	GEX	U8	中	U':[R E' R',U2]		U' R E' R' U2 R E R' U'		
+E	GEY	S4	中/下	R U':[S,R2]		R U' S R2 S' R2 U R'		
+E	GEZ	U8	中	U:[L' E L,U2]		U L' E L U2 L' E' L U		
+E	GFA	M8	中	R':[U' R U,M]		R' U' R U M U' R' U M' R	U S R' F R S' R' F' R U'	U:[S,R' F R]
+E	GFB	M8	中	R:[M',U R' U']		R M' U R' U' M U R U' R'		
+E	GFC	M8	中	L:[U L' U',M]		L U L' U' M U L U' M' L'		
+E	GFD	M8	中	l':[U' L U,M]		L' M' U' L U M U' L' U L	U' R' F R S R' F' R S' U	U':[R' F R,S]
+E	GFI	S8	中	U:[S,R' F' R]	空穴为UR，明显发现此类公式均带A和F，注意第三个字母的01色相，如果是0位置就做U将F挪到UR，如果是1位置就做U'（由于此类公式镜像左手没必要，就没选了） ☆规律☆：这一类与上略不同，因为双字母联系不是直达层步骤 ①法一，第三个字母是O位置，以FI举例，由于他们是通过3步交换步骤联系的，所以试3步交换步骤，发现不行，所以就应该先做1步直达层。 ②第三个字母是1位置，属于缓冲是在空穴位置上方法（也就是E8带☆规律中的法二）。看后一个字母是啥，做它的对应步骤。以FJ举例，J对应的步骤是3步交换步骤，所以就先做3步交换步骤。	U S R' F' R S' R' F R U'		
+E	GFJ	S8	中	U':[R' F' R,S]		U' R' F' R S R' F R S' U		
+E	GFK	S8	中	U D:[S,R' F' R]		U D S R' F' R S' R' F R U' D'		
+E	GFL	S8	中	U' D:[R' F' R,S]		U' D R' F' R S R' F R S' U D'		
+E	GFM	S8	中	U:[S,R B R']		U S R B R' S' R B' R' U'		
+E	GFN	S8	中	U':[R B R',S]		U' R B R' S R B' R' S' U		
+E	GFO	S8	中	U D':[S,R' F' R]		U D' S R' F' R S' R' F R D U'		
+E	GFP	S8	中	U' D':[R' F' R,S]		U' D' R' F' R S R' F R S' D U		
+E	GFQ	M8	中	[U' R U,M]	空穴为UF/UB,此类第三个字母均为0位置，且A与F/M/J形成直达。以AFQ举例，不在直达层的是Q，Q要去A，A已经在UF，先做交换步骤，再做直达层。 规律：缓冲在空穴，法二。所以先做后面那个字母对应的步骤就行，以FQ举例，先做Q对应的3步交换步骤。	U' R U M U' R' U M'		
+E	GFR	M8	中	[M',U R U']	空穴为UB,与上述同理，注意到第三个字母为1位置，所以BU为空穴。 规律：缓冲不在空穴，法一。双字母联系是3步交换步骤。以FR举例，F不能3步打R，所以先做1步交换步骤。反之亦成立。	M' U R U' M U R' U'		
+E	GFS	M8	中	[U L' U',M]		U L' U' M U L U' M'		
+E	GFT	M8	中	[M',U' L' U]		M' U' L' U M U' L U		
+E	GFW	M8	中	[U L U',M]		U L U' M U L' U' M'		
+E	GFX	M8	中	[M',U' L U]		M' U' L U M U' L' U		
+E	GFY	M8	中	[U' R' U,M]		U' R' U M U' R U M'		
+E	GFZ	M8	中	[M',U R' U']		M' U R' U' M U R U'		
+E	GIA	S8	中	L F' L':[S',L F2 L']		L F' L' S' L F2 L' S L F' L'	S R' F E R2 E' R2 F' R S'	S R' F:[E,R2]
+E	GIB	E4	中	R F:[E,R2]		R F E R2 E' R2 F' R'	D S' R' F R S R' F' R D'	D:[S',R' F R]
+E	GIC	S8	中	R' F R:[S,R' F2 R]		R' F R S R' F2 R S' R' F R		
+E	GID	E4	中	L' F':[E',L2]		L' F' E' L2 E L2 F L	D' S L F' L' S' L F L' D	D':[S,L F' L']
+E	GIE	M4	中	[M',U2]		M' U2 M U2		
+E	GIF	S8	中	U:[R' F' R,S]		U R' F' R S R' F R S' U'		
+E	GIK	S8	中	L F' L':[S,L F2 L']		L F' L' S L F2 L' S' L F' L'	S' R' F E R2 E' R2 F' R S	S' R' F:[E,R2]
+E	GIL	E4	中	L F':[E',L2]		L F' E' L2 E L2 F L'	U r' D r S' r' D' r S U'	U:[r' D r,S']
+E	GIM	M4	中			u2 M' u2 M'		
+E	GIN	S8	中	D':[S',R F R']		D' S' R F R' S R F' R' D		
+E	GIO	S8	中	R' F R:[S',R' F2 R]		R' F R S' R' F2 R S R' F R		
+E	GIP	E4	中	R' F:[E,R2]		R' F E R2 E' R2 F' R	U' R F' R' S R F R' S' U	U':[R F' R',S]
+E	GIQ	E4	中	U D' L':[E',L2]		U D' L' E' L2 E L' U' D		
+E	GIR	E4	下/上	R2 F:[E,R2]		R2 F E R2 E' R2 F' R2		
+E	GIS	E4	中	U' D R:[E,R2]		U' D R E R2 E' R U D'		
+E	GIT	E4	左下/左上	L2 F':[E',L2]		L2 F' E' L2 E L2 F L2	U R' F' R S R' F' R S' R' F2 R U'	U R' F':[R S R',F']
+E	GIW	E4	中	U' D R':[E',R2]		U' D R' E' R2 E R' U D'		
+E	GIX	E4	左下/左上	F':[E',L2]		F' E' L2 E L2 F	F r2 E r2 E F'	
+E	GIY	E4	中	U D' L:[E,L2]		U D' L E L2 E' L U' D		
+E	GIZ	E4	下/上	F:[E,R2]	4步公式三块均在同个中层。 核心思路是把3个块挪到E层，F可以把AI挪到E层，所以就需要通过R层调整将ZPRH挪到Z位置（BL）。E层方向是把非R层的那个字母往R层转的方向。 ☆规律☆：有两种规律： 一.缓冲在外层步骤 二.缓冲不在外层步骤 这类介绍法一：先做E的条件是看第一个字母的相对位置更靠前（F层）还是更靠后（B层），然后往它们的方向转R层后再做E层。以IZ举例，首字母是I，相对于Z更靠前。所以要往I这边转，但已经最前面了，所以不用转，就先做E再做R2。如果是ZI，首字母Z位置更靠后，所以要先做R2往后转，再做E层。 特例！APX setup完PX都在B层，此时不在外层步骤的字母优先级高，所以X靠后，P就是靠前。	F E R2 E' R2 F'		
+E	GJA	M8	中	R:[U' R' U,M']		R U' R' U M' U' R U M R'		
+E	GJB	S8	中	U D':[L F' L',S]		U D' L F' L' S L F L' S' U' D	R' F' E R U' R' E' R U R' F R	R' F':[E,R U' R']
+E	GJC	M8	中	L':[U L U',M']		L' U L U' M' U L' U' M L		
+E	GJD	S8	中	U' D:[R' F R,S']		U' D R' F R S' R' F' R S U D'	L F E' L' U L E L' U' L F' L'	L F:[E',L' U L]
+E	GJE	E8	中	R' F':[E,R U R']		R' F' E R U R' E' R U' R' F R	U M U M U2 M' U M' U'	U M U:[M,U2]
+E	GJF	S8	中	U':[S,R' F' R]		U' S R' F' R S' R' F R U		
+E	GJK	S4	中	U' L F L:[S',L2]		U' L F L S' L2 S L F' L' U	U' R F' R' S' R2 S R' F R' U	U' R F' R':[S',R2]
+E	GJL	S8	中	U:[S,L F L']		U S L F L' S' L F' L' U'	U R' D' R S' R' D R S U'	U:[R' D' R,S']
+E	GJM	S8	中	D:[R F R',S']		D R F R' S' R F' R' S D'		
+E	GJN	S4	中	D' R' F R':[S',R2]		D' R' F R' S' R2 S R' F' R D		
+E	GJO	S4	中	U R' F' R':[S,R2]		U R' F' R' S R2 S' R' F R U'	U' R2 U M' U' R2 U M	[U' R2 U,M']
+E	GJP	S8	中	U':[S',R' F' R]	空穴为UR/UL、DR/DL，以AJP举例，做完U' setup之后J不在直达层，J要去P，P先做直达层S'到UR，再做交换步骤。 规律：同上的②看后一个字母对应的步骤先做就行。	U' S' R' F' R S R' F R U		
+E	GJQ	M8	中	[U' R U,M']		U' R U M' U' R' U M		
+E	GJR	M8	中	M':[U R U',M']	空穴为UB，与上同理。 规律：实际上同U8的规律，不过这里同样也是判断112（211）型和121型。 ①空格上方是112（211）型，因为F是空穴，而该类公式不包括F，且AJ相邻。以AJR举例，R要打A，所以先做M',那么M层步骤就是M' M' M2。反之亦然。 ②空格下方是121型，同F是空穴，而该类公式不包括F且AM相对。以AMR举例，R要打A，所以A要去F，先做M'。那么M层步骤便是M' M2 M'。反之亦然	M' U R U' M' U R' U' M2	F' E R U' R' E' R U R' F	F':[E,R U' R']
+E	GJS	M8	中	[U L' U',M']		U L' U' M' U L U' M	R' F R U' R' E R U R' E' F' R	R' F:[R U' R',E]
+E	GJT	M8	中	M':[U' L' U,M']		M' U' L' U M' U' L U M2	U' R' M' E R U' R' E' R U M U	U' R' M':[E,R U' R']
+E	GJW	M8	中	[U L U',M']		U L U' M' U L' U' M	U' R F' R2 E' R2 E F R' U	U' R F':[R2,E']
+E	GJX	M8	中	M':[U' L U,M']		M' U' L U M' U' L' U M2	U' r E' R' U' R E R' U M U	U' r:[E',R' U' R]
+E	GJY	M8	中	[U' R' U,M']		U' R' U M' U' R U M		
+E	GJZ	M8	中	M':[U R' U',M']		M' U R' U' M' U R U' M2	R2 F' E R U' R' E' R U R' F R2	R2 F':[E,R U' R']
+E	GKA	S4	中	l F L:[S',L2]		l F L S' L2 S L F' l'	L U L' U' L' U' L' U L U	
+E	GKB	S8	中	R2:[S',R F R']		R2 S' R F R' S R F' R' R2		
+E	GKC	Others	中	[L E' L2 E L,U]		L E' L2 E L U L' E' L2 E L' U'	L U' L' S' L2 S L' U L'	L U' L':[S',L2]
+E	GKD	S8	中	[S,L F' L']		S L F' L' S' L F L'		
+E	GKE	S4	中	U:[L2,S']		U L2 S' L2 S U'		
+E	GKF	S8	中	U D:[R' F' R,S]		U D R' F' R S R' F R S' U' D'		
+E	GKI	S8	中	L F L':[S,L F2 L']		L F L' S L F2 L' S' L F L'	S' R' F R2 E R2 E' F' R S	S' R' F:[R2,E]
+E	GKJ	S4	中	U' L F L':[S',L2]		U' L F L' S' L2 S L' F' L' U	U' R F' R S' R2 S R F R' U	U' R F' R:[S',R2]
+E	GKM	S8	中	D L F' L':[S,L F2 L']		D L F' L' S L F2 L' S' L F' L' D'	U' R' D' R D R D R D' R' U D'	
+E	GKN	E4	中	D L F':[E',L2]		D L F' E' L2 E L2 F L' D'	U' D' R' B R S R' B' R S' U D	U' D':[R' B R,S]
+E	GKO	S4	中	U':[R2,S']	特例！非外层优先级更高，所以K下O上。	U' R2 S' R2 S U		
+E	GKP	S8	中	[S',R F R']	空穴为DR/DL。以AKP举例，A不在直达层，A要去K，K先做直达层S'到DR，再做交换步骤。 规律：同上，以KP举例，K能1步打P，所以先做直达层步骤。PK的P不能1步打K，所以要先做3步。	S' R F R' S R F' R'		
+E	GKQ	E4	中	U L':[E',L2]		U L' E' L2 E L' U'		
+E	GKR	E4	中	U E L:[E,L2]		U E L E L2 E' L U' E'	R' S' R F R' S R F'	[R' S' R,F]
+E	GKS	E4	中	U' D2 R:[E,R2]		U' D2 R E R2 E' R U D2	U2 L' U L U L U L' U' L' U	
+E	GKT	E4	中	U E L':[E',L2]		U E L' E' L2 E L' U' E'		
+E	GKW	E4	中	U' D2 R':[E',R2]		U' D2 R' E' R2 E R' U D2	L U' L' U' L' U' L U L U	
+E	GKX	E4	中	u L:[E,L2]		u L E L2 E' L u'		
+E	GKY	E4	中	U L:[E,L2]		U L E L2 E' L U'		
+E	GKZ	E4	中	u L':[E',L2]		u L' E' L2 E L' u'		
+E	GLA	U8	中	U:[U,L E L']		U2 L E L' U' L E' L' U'		
+E	GLB	S4	中	L F' L:[S',L2]		L F' L S' L2 S L F L'	R F R' S' R2 S R' F' R'	R F R':[S',R2]
+E	GLC	U8	中	[L E L',U]		L E L' U L E' L' U'		
+E	GLD	E4	中	F L:[E',L2]		F L E' L2 E L F'	S' U' S' R2 S R2 U S	S' U':[S',R2]
+E	GLE	U8	中	U':[L E L',U2]		U' L E L' U2 L E' L' U'		
+E	GLF	S8	中	U' D:[S,R' F' R]		U' D S R' F' R S' R' F R U D'		
+E	GLI	E4	中	L F':[L2,E']		L F' L2 E' L2 E F L'	U S' r' D r S r' D' r U'	U:[S',r' D r]
+E	GLJ	S8	中	U:[L F L',S]		U L F L' S L F' L' S' U'	U S' R' D' R S R' D R U'	U:[S',R' D' R]
+E	GLM	S8	中	U:[S',L B' L']		U S' L B' L' S L B L' U'		
+E	GLN	S8	中	U:[L' B' L,S]		U L' B' L S L' B L S' U'	U S' R' D R S R' D' R U'	U:[S',R' D R]
+E	GLO	S8	中	[L' F' L,S]		L' F' L S L' F L S'		
+E	GLP	S4	中	R' F R':[S',R2]	特例！ALP同AKO，L优先级更高	R' F R' S' R2 S R' F' R		
+E	GLQ	S8	中	U:[L F2 L',S]		U L F2 L' S L F2 L' S' U'	L' E' L U L' E' L U' L' E2 L	L' E':[L U L',E']
+E	GLR	U8	中	S:[U,L E' L']		S U L E' L' U' L E L' S'	M' U' L' E' L2 E L' U M	M' U' L':[E',L2]
+E	GLS	E4	中	S' U' R:[E,R2]		S' U' R E R2 E' R U S	L f' L' S L2 S' L' f L'	L f' L':[S,L2]
+E	GLT	Others	中	[U S' U',L]		U S' U' L U S U' L'	S U' R' E R U' R' E' R U2 S'	S U':[R' E R,U']
+E	GLW	E4	中	S' U' R':[E',R2]		S' U' R' E' R2 E R' U S		
+E	GLX	Others	中	[U S' U',L']		U S' U' L' U S U' L	S U' R E' R' U' R E R' U2 S'	S U':[R E' R',U']
+E	GLY	Others	中	L E L':[U,L E L']		L E L' U L E L' U' L E2 L'	U' D R' U M' U' R U M D'	U' D:[R',U M' U']
+E	GLZ	E4	中	L F':[E,L2]		L F' E L2 E' L2 F L'	F R' S' R2 S R' F'	F R':[S',R2]
+E	GMA	M8	中	R:[U' R' U,M2]		R U' R' U M2 U' R U M2 R'	R U R' U M U2 M' U R U' R'	R U R' U:[M,U2]
+E	GMB	S8	中	D':[S',R' F R]		D' S' R' F R S R' F' R D	r U R' U' M2 U R U' R' M'	r:[U R' U',M2]
+E	GMC	M8	中	L':[U L U',M2]		L' U L U' M2 U L' U' M2 L	D' R' U' R U R U R U' R' U' D	
+E	GMD	S8	中	D:[S,L F' L']		D S L F' L' S' L F L' D'		
+E	GME	M4	中	[U2,M]		U2 M U2 M'		
+E	GMF	S8	中	U:[R B R',S]		U R B R' S R B' R' S' U'		
+E	GMI	M4	中	M':[U2,M']		M' U2 M' U2 M2		
+E	GMJ	S8	中	D:[S',R F R']		D S' R F R' S R F' R' D'		
+E	GMK	S8	中	D L F L':[S,L F2 L']		D L F L' S L F2 L' S' L F L' D'	U' D R D R' D' R' D' R' D R U	
+E	GML	S8	中	U:[L B' L',S']		U L B' L' S' L B L' S U'		
+E	GMO	S8	中	D' R' F' R:[S',R' F2 R]		D' R' F' R S' R' F2 R S R' F' R D	U' R' D R' S' R2 S R' D' R U	U' R' D R':[S',R2]
+E	GMP	S8	中	U':[R' B R,S]		U' R' B R S R' B' R S' U		
+E	GMQ	E4	中	U D L':[E',L2]		U D L' E' L2 E L' U' D'	U' R U M2 U' R' U M2	[U' R U,M2]
+E	GMR	M8	中	M':[U R U',M2]		M' U R U' M2 U R' U' M'		
+E	GMS	E4	中	U' D' R:[E,R2]		U' D' R E R2 E' R U D		
+E	GMT	M8	中	M':[U' L' U,M2]		M' U' L' U M2 U' L U M'	D' R' F2 R S' R' F' R S R' F' R D	D' R' F:[F,R S' R']
+E	GMW	E4	中	U' D' R':[E',R2]		U' D' R' E' R2 E R' U D		
+E	GMX	M8	中	M':[U' L U,M2]		M' U' L U M2 U' L' U M'		
+E	GMY	E4	中	U D L:[E,L2]		U D L E L2 E' L U' D'	U' R' U M2 U' R U M2	[U' R' U,M2]
+E	GMZ	M8	中	M':[U R' U',M2]		M' U R' U' M2 U R U' M'		
+E	GNA	Others	中			M U' M' U' M U' M' U'		
+E	GNB	S8	中	U D:[L F' L',S]		U D L F' L' S L F L' S' D' U'		
+E	GNC	Others	中			M U M' U M U M' U		
+E	GND	S8	中	U' D':[R' F R,S']		U' D' R' F R S' R' F' R S D U	D' R' F R' S R2 S' R' F' R D	D' R' F R':[S,R2]
+E	GNE	S4	中	U' R' B R':[S,R2]		U' R' B R' S R2 S' R' B' R U	U' M' U M' U2 M U M U	U' M' U:[M',U2]
+E	GNF	S8	中	U':[S,R B R']		U' S R B R' S' R B' R' U		
+E	GNI	S8	中	D':[R F R',S']		D' R F R' S' R F' R' S D		
+E	GNJ	S4	中	D' R' F R:[S',R2]		D' R' F R S' R2 S R F' R D		
+E	GNK	E4	中	D L F':[L2,E']		D L F' L2 E' L2 E F L' D'	U' D' S R' B R S' R' B' R U D	U' D':[S,R' B R]
+E	GNL	S8	中	U:[S,L' B' L]		U S L' B' L S' L' B L U'	U R' D R S' R' D' R S U'	U:[R' D R,S']
+E	GNO	E4	中	D' R' F:[R2,E]		D' R' F R2 E R2 E' F' R D		
+E	GNP	S8	中	U':[S',R B R']		U' S' R B R' S R B' R' U		
+E	GNQ	M8	中	U2:[U R U',M]		U2 U R U' M U R' U' M' U2		
+E	GNR	Others	中	U M:[L E' L',U']		U M L E' L' U' L E L' U M' U'		
+E	GNS	M8	中	U2:[U' L' U,M]		U2 U' L' U M U' L U M' U2	U' R' B R2 E R2 E' B' R U	U' R' B:[R2,E]
+E	GNT	Others	中	U' M:[R' E R,U]	空穴为UR/UL，核心思路是将N挪到E，凑成U8的两顶一侧面形式	U' M R' E R U R' E' R U' M' U		
+E	GNW	M8	中	U2:[U' L U,M]		U2 U' L U M U' L' U M' U2		
+E	GNX	Others	中	U' M:[r E' r',U]		U' M r E' r' U r E r' U' M' U	D' R' F E' R2 E R2 F' R D	D' R' F:[E',R2]
+E	GNY	M8	中	U2:[U R' U',M]		U2 U R' U' M U R U' M' U2		
+E	GNZ	Others	中	U M:[l' E l,U']		U M l' E l U' l' E' l U M' U'		
+E	GOA	Others	中	[R' E R2 E' R',U']		R' E R2 E' R' U' R E R2 E' R U	R U R' S R2 S' R' U' R'	R U R':[S,R2]
+E	GOB	S8	中	[S',R' F R]		S' R' F R S R' F' R		
+E	GOC	S4	中	r' F' R':[S,R2]		r' F' R' S R2 S' R' F r	R' U' R U R U R U' R' U'	
+E	GOD	S8	中	L2:[S,L' F' L]		L2 S L' F' L S' L' F L L2		
+E	GOE	S4	中	U':[R2,S]		U' R2 S R2 S' U		
+E	GOF	S8	中	U D':[R' F' R,S]		U D' R' F' R S R' F R S' D U'		
+E	GOI	S8	中	R' F' R:[S',R' F2 R]		R' F' R S' R' F2 R S R' F' R		
+E	GOJ	S4	中	U R' F' R:[S,R2]		U R' F' R S R2 S' R F R U'	M' U' R2 U M U' R2 U	[M',U' R2 U]
+E	GOK	S4	中	U':[S',R2]		U' S' R2 S R2 U		
+E	GOL	S8	中	[S,L' F' L]		S L' F' L S' L' F L		
+E	GOM	S8	中	D' R' F R:[S',R' F2 R]		D' R' F R S' R' F2 R S R' F R D	U' R' D R S' R2 S R D' R U	U' R' D R:[S',R2]
+E	GON	E4	中	D' R' F:[E,R2]		D' R' F E R2 E' R2 F' R D		
+E	GOQ	E4	中	U D2 L':[E',L2]		U D2 L' E' L2 E L' U' D2	U2 R U' R' U' R' U' R U R U'	
+E	GOR	E4	中	U' E' R:[E,R2]		U' E' R E R2 E' R U E		
+E	GOS	E4	中	U' R:[E,R2]		U' R E R2 E' R U		
+E	GOT	E4	中	U' E' R':[E',R2]		U' E' R' E' R2 E R' U E	R' F2 R S' R' F' R S R' F' R	R' F:[F,R S' R']
+E	GOW	E4	中	U' R':[E',R2]		U' R' E' R2 E R' U		
+E	GOX	E4	中	u' R:[E,R2]		u' R E R2 E' R u		
+E	GOY	E4	中	U D2 L:[E,L2]		U D2 L E L2 E' L U' D2	R' U R U R U R' U' R' U'	
+E	GOZ	E4	中	u' R':[E',R2]		u' R' E' R2 E R' u		
+E	GPA	U8	中	[R' E' R,U']		R' E' R U' R' E R U		
+E	GPB	E4	中	F' R':[E,R2]		F' R' E R2 E' R' F	R' E R U' R E' R2 E R U R' E' R	R' E R U' R:[E',R2]
+E	GPC	U8	中	U':[U',R' E' R]		U2 R' E' R U R' E R U		
+E	GPD	S4	中	R' F R':[S,R2]		R' F R' S R2 S' R' F' R	U' R' F R S' R' F' R S U	U':[R' F R,S']
+E	GPE	U8	中	U:[R' E' R,U2]		U R' E' R U2 R' E R U		
+E	GPF	S8	中	U' D':[S,R' F' R]		U' D' S R' F' R S' R' F R D U		
+E	GPI	E4	中	R' F:[R2,E]		R' F R2 E R2 E' F' R	U' S R F' R' S' R F R' U	U':[S,R F' R']
+E	GPJ	S8	中	U':[R' F' R,S']		U' R' F' R S' R' F R S U		
+E	GPK	S8	中	[R F R',S']		R F R' S' R F' R' S		
+E	GPL	S4	中	R' F R:[S',R2]		R' F R S' R2 S R F' R		
+E	GPM	S8	中	U':[S,R' B R]		U' S R' B R S' R' B' R U		
+E	GPN	S8	中	U':[R B R',S']		U' R B R' S' R B' R' S U		
+E	GPQ	E4	中	S U L':[E',L2]		S U L' E' L2 E L' U' S'	R' f R S' R2 S R f' R	R' f R:[S',R2]
+E	GPR	Others	中	[U' S U,R']	空穴为DR/DL 规律：发现缓冲不在空穴，双字母的联系步骤是R'。以PR举例，P不能1步打R，所以先做U' S U。反之同理。	U' S U R' U' S' U R	S' U L E' L' U L E L' U2 S	S' U:[L E' L',U]
+E	GPS	S8	中	U':[R' F2 R,S']		U' R' F2 R S' R' F2 R S U	R E R' U' R E R' U R E2 R'	R E:[R' U' R,E]
+E	GPT	U8	中	S':[U',R' E R]		S' U' R' E R U R' E' R S		
+E	GPW	Others	中	R' E' R:[U',R' E' R]	空穴为UR/UL，这里更推荐将R' E' R的三步当做整体记忆，就相当于是三步让P和W到G的位置然后被A打。	R' E' R U' R' E' R U R' E2 R		
+E	GPX	E4	中	R' F:[E',R2]		R' F E' R2 E R2 F' R		
+E	GPY	E4	中	S U L:[E,L2]		S U L E L2 E' L U' S'		
+E	GPZ	Others	中	[U' S U,R]		U' S U R U' S' U R'	S' U L' E L U L' E' L U2 S	S' U:[L' E L,U]
+E	GQA	U8	中	E':[R' E R,U']		E' R' E R U' R' E' R U E		
+E	GQB	S8	中	l F l':[S',l F l']		l F l' S' l F l' S l F2 l'	R' U' E' R E R2 E' R U E R	R' U' E' R:[E,R2]
+E	GQC	U8	中	[L' E2 L,U]		L' E2 L U L' E2 L U'		
+E	GQD	E4	中	S' U L:[E',L2]		S' U L E' L2 E L U' S		
+E	GQE	S4	中/上	R' U':[R2,S]		R' U' R2 S R2 S' U R		
+E	GQF	M8	中	[M,U' R U]		M U' R U M' U' R' U		
+E	GQI	E4	中	U D' L:[E',L2]		U D' L E' L2 E L U' D		
+E	GQJ	M8	中	[M',U' R U]		M' U' R U M U' R' U		
+E	GQK	E4	中	U L:[E',L2]		U L E' L2 E L U'		
+E	GQL	S8	中	U:[S,L F2 L']		U S L F2 L' S' L F2 L' U'	L' E2 L U L' E L U' L' E L	L' E':[E',L U L']
+E	GQM	E4	中	U D L:[E',L2]		U D L E' L2 E L U' D'	M2 U' R U M2 U' R' U	[M2,U' R U]
+E	GQN	M8	中	U2:[M,U R U']		U2 M U R U' M' U R' U' U2		
+E	GQO	E4	中	U D2 L:[E',L2]		U D2 L E' L2 E L U' D2	U R' U' R' U R U R U R' U2	
+E	GQP	E4	中	S U L:[E',L2]		S U L E' L2 E L U' S'	R' f R' S' R2 S R' f' R	R' f R':[S',R2]
+E	GQS	E4	上	R' U' R:[E,R2]		R' U' R E R2 E' R U R		
+E	GQT	E8	下	[R U' R',E]	空穴为FR/FL，以AQT举例，A要去Q，就直接做交换步骤， 再做直达层。 ☆规律☆：单空穴转换机有两种规律： 一.缓冲不在空穴（或双字母均位于1步直达层或交换步骤） 二.缓冲在空穴（或双字母分别位于1步直达层和交换步骤） 这一类属于法一，先来介绍法一:看双字母联系的步骤是1步直达层，以QT举例，他们联系的步骤是E，发现Q不能1步打T，所以要先做3步。TQ的话发现T能1步打Q，所以就先做1步直达层。 AEJ的思路其实就是将AJ通过F层转动挪到E层，形成直达.这之后就是把U层方向改一下（AE相对）。连带的R层步骤实际没有影响三个字母，只是为了中立加的。	R U' R' E R U R' E'		
+E	GQW	E4	上	R' U' R':[E',R2]		R' U' R' E' R2 E R' U R		
+E	GQX	U8	下	R:[U',R E' R']		R U' R E' R' U R E R' R'		
+E	GQY	S4	中	U R':[S,R2]		U R' S R2 S' R' U'		
+E	GQZ	E8	下	[R U' R',E']		R U' R' E' R U R' E		
+E	GRA	U8	中	U:[U,L E' L']		U2 L E' L' U' L E L' U'		
+E	GRB	U8	中	S':[L E' L',U]		S' L E' L' U L E L' U' S		
+E	GRC	U8	中	[L E' L',U]		L E' L' U L E L' U'		
+E	GRD	M4	下	R M U':[M',U2]		R M U' M' U2 M U' R' M'	R2 F R' S R2 S' R' F' R2	R2 F R':[S,R2]
+E	GRE	U8	中	U':[L E' L',U2]		U' L E' L' U2 L E L' U'		
+E	GRF	M8	中	[U R U',M']		U R U' M' U R' U' M		
+E	GRI	E4	下/上	R2 F:[R2,E]		R2 F R2 E R2 E' F' R2		
+E	GRJ	M8	中	M':[M',U R U']		M2 U R U' M U R' U' M	F' R U' R' E R U R' E' F	F':[R U' R',E]
+E	GRK	E4	中	U E L':[E,L2]		U E L' E L2 E' L' U' E'	F R' S' R F' R' S R	[F,R' S' R]
+E	GRL	U8	中	S:[L E' L',U]		S L E' L' U L E L' U' S'	M' U' L E' L2 E L U M	M' U' L:[E',L2]
+E	GRM	M8	中	M:[U R U',M2]		M U R U' M2 U R' U' M		
+E	GRN	Others	中	U M:[U',L E' L']		U M U' L E' L' U L E L' M' U'		
+E	GRO	E4	中	U' E' R':[E,R2]		U' E' R' E R2 E' R' U E		
+E	GRP	Others	中	[R',U' S U]		R' U' S U R U' S' U	S' U2 L E' L' U' L E L' U' S	S' U:[U,L E' L']
+E	GRS	E8	左下	[E',L' U L]		E' L' U L E L' U' L	r U r' E r U' r' E'	[r U r',E]
+E	GRT	S4	中	U E R:[S,R2]		U E R S R2 S' R U' E'		
+E	GRW	U8	左上	L:[L E' L',U]		L L E' L' U L E L' U' L'		
+E	GRX	E4	左下	l' U' L:[E',L2]		l' U' L E' L2 E L U l	R2 F E' R2 E R2 F' R2	R2 F:[E',R2]
+E	GRY	E8	上	[E,R' U' R]		E R' U' R E' R' U R		
+E	GRZ	S4	中/上	l' U' R':[S,R2]		l' U' R' S R2 S' R' U l		
+E	GSA	U8	中	[R E2 R',U']		R E2 R' U' R E2 R' U		
+E	GSB	E4	中	S U' R':[E,R2]		S U' R' E R2 E' R' U S'		
+E	GSC	U8	中	E:[L E' L',U]		E L E' L' U L E L' U' E'		
+E	GSD	S8	中	r' F' r:[S,r' F' r]		r' F' r S r' F' r S' r' F2 r	r U2 r' E r U' r' E' r U' r'	r U:[U,r' E r]
+E	GSE	S4	中/左上	L U:[L2,S']		L U L2 S' L2 S U' L'		
+E	GSF	M8	中	[M,U L' U']		M U L' U' M' U L U'		
+E	GSI	E4	中	U' D R':[E,R2]		U' D R' E R2 E' R' U D'		
+E	GSJ	M8	中	[M',U L' U']		M' U L' U' M U L U'	R' F E R U' R' E' R U R' F' R	R' F:[E,R U' R']
+E	GSK	E4	中	U' D2 R':[E,R2]		U' D2 R' E R2 E' R' U D2	U' L U L U' L' U' L' U' L U2	
+E	GSL	E4	中	S' U' R':[E,R2]		S' U' R' E R2 E' R' U S	L f' L S L2 S' L f L'	L f' L:[S,L2]
+E	GSM	E4	中	U' D' R':[E,R2]		U' D' R' E R2 E' R' U D		
+E	GSN	M8	中	U2:[M,U' L' U]		U2 M U' L' U M' U' L U U2	U' R' B E R2 E' R2 B' R U	U' R' B:[E,R2]
+E	GSO	E4	中	U' R':[E,R2]		U' R' E R2 E' R' U		
+E	GSP	S8	中	U':[S',R' F2 R]		U' S' R' F2 R S R' F2 R U	R E2 R' U' R E' R' U R E' R'	R E:[E,R' U' R]
+E	GSQ	E4	上	R' U' R':[E,R2]		R' U' R' E R2 E' R' U R		
+E	GSR	E8	左下	[L' U L,E']		L' U L E' L' U' L E	E r U r' E' r U' r'	[E,r U r']
+E	GSW	S4	中	U' L:[S',L2]		U' L S' L2 S L U		
+E	GSX	E8	左下	[L' U L,E]		L' U L E L' U' L E'		
+E	GSY	E4	下	R U' R':[E,R2]		R U' R' E R2 E' R' U R'		
+E	GSZ	U8	左下	L':[U,L' E L]		L' U L' E L U' L' E' L L		
+E	GTA	U8	中	[R' E R,U']		R' E R U' R' E' R U		
+E	GTB	M4	左下	M L' U:[M',U2]		M L' U M' U2 M U M' L	U' M U' R' E R U R' E' r U	U' M:[U',R' E R]
+E	GTC	U8	中	U':[U',R' E R]		U2 R' E R U R' E' R U		
+E	GTD	U8	中	S:[R' E R,U']		S R' E R U' R' E' R U S'		
+E	GTE	U8	中	U:[R' E R,U2]		U R' E R U2 R' E' R U		
+E	GTF	M8	中	[U' L' U,M']		U' L' U M' U' L U M		
+E	GTI	E4	左下/左上	L2 F':[L2,E']		L2 F' L2 E' L2 E F L2	U R' F2 R S R' F R S' R' F R U'	U R' F':[F',R S R']
+E	GTJ	M8	中	M':[M',U' L' U]		M2 U' L' U M U' L U M	U' M' U' R' E R U R' E' R M U	U' M':[U',R' E R]
+E	GTK	E4	中	U E L:[E',L2]		U E L E' L2 E L U' E'		
+E	GTL	Others	中	[L,U S' U']		L U S' U' L' U S U'	S U2 R' E R U R' E' R U S'	S U':[U',R' E R]
+E	GTM	M8	中	M:[U' L' U,M2]		M U' L' U M2 U' L U M	D' R' F R S' R' F R S R' F2 R D	D' R' F:[R S' R',F]
+E	GTN	Others	中	U' M:[U,R' E R]		U' M U R' E R U' R' E' R M' U		
+E	GTO	E4	中	U' E' R:[E',R2]		U' E' R E' R2 E R U E	R' F R S' R' F R S R' F2 R	R' F:[R S' R',F]
+E	GTP	U8	中	S':[R' E R,U']		S' R' E R U' R' E' R U S		
+E	GTQ	E8	下	[E,R U' R']		E R U' R' E' R U R'		
+E	GTR	S4	中	U E R':[S,R2]		U E R' S R2 S' R' U' E'		
+E	GTW	E8	左上	[E',L U L']		E' L U L' E L U' L'		
+E	GTX	S4	下	r U L:[S',L2]		r U L S' L2 S L U' r'		
+E	GTY	U8	上	R':[R' E R,U']		R' R' E R U' R' E' R U R		
+E	GTZ	E4	下	r U R':[E,R2]		r U R' E R2 E' R' U' r'		
+E	GWA	U8	中	[R' E2 R,U']		R' E2 R U' R' E2 R U		
+E	GWB	E4	中	S U' R:[E',R2]		S U' R E' R2 E R U S'		
+E	GWC	U8	中	E':[L' E L,U]		E' L' E L U L' E' L U' E		
+E	GWD	E4	左下	L' u L:[E,L2]		L' u L E L2 E' L u' L	U' R F E' R2 E R2 F' R' U	U' R F:[E',R2]
+E	GWE	S4	中/左下	L' U:[L2,S']		L' U L2 S' L2 S U' L		
+E	GWF	M8	中	[M,U L U']		M U L U' M' U L' U'		
+E	GWI	E4	中	U' D R:[E',R2]		U' D R E' R2 E R U D'		
+E	GWJ	M8	中	[M',U L U']		M' U L U' M U L' U'	U' R F' E' R2 E R2 F R' U	U' R F':[E',R2]
+E	GWK	E4	中	U' D2 R:[E',R2]		U' D2 R E' R2 E R U D2	U' L' U' L' U L U L U L'	
+E	GWL	E4	中	S' U' R:[E',R2]		S' U' R E' R2 E R U S		
+E	GWM	E4	中	U' D' R:[E',R2]		U' D' R E' R2 E R U D		
+E	GWN	M8	中	U2:[M,U' L U]		U2 M U' L U M' U' L' U U2		
+E	GWO	E4	中	U' R:[E',R2]		U' R E' R2 E R U		
+E	GWP	Others	中	R' E2 R:[U',R' E R]		R' E2 R U' R' E R U R' E R		
+E	GWQ	E4	上	R' U' R:[E',R2]		R' U' R E' R2 E R U R		
+E	GWR	U8	左上	L:[U,L E' L']		L U L E' L' U' L E L' L'		
+E	GWS	S4	中	U' L':[S',L2]		U' L' S' L2 S L' U		
+E	GWT	E8	左上	[L U L',E']		L U L' E' L U' L' E		
+E	GWY	E4	下	R U' R:[E',R2]		R U' R E' R2 E R U R'		
+E	GWZ	E8	左上	[L U L',E]		L U L' E L U' L' E'		
+E	GXA	U8	中	[R E' R',U']		R E' R' U' R E R' U		
+E	GXB	M4	左上	l U:[M',U2]		l U M' U2 M U l'	R F R2 E' R2 E F' R'	R F:[R2,E']
+E	GXC	U8	中	U':[U',R E' R']		U2 R E' R' U R E R' U		
+E	GXD	U8	中	S:[R E' R',U']		S R E' R' U' R E R' U S'		
+E	GXE	U8	中	U:[R E' R',U2]		U R E' R' U2 R E R' U		
+E	GXF	M8	中	[U' L U,M']		U' L U M' U' L' U M		
+E	GXI	E4	左下/左上	F':[L2,E']		F' L2 E' L2 E F	F' r2 E r2 E F	
+E	GXJ	M8	中	M':[M',U' L U]		M2 U' L U M U' L' U M	U' M' U' R E' R' U R E r' U	U' M':[U',R E' R']
+E	GXK	E4	中	u L':[E,L2]		u L' E L2 E' L' u'		
+E	GXL	Others	中	[L',U S' U']		L' U S' U' L U S U'	S U2 R E' R' U R E R' U S'	S U':[U',R E' R']
+E	GXM	M8	中	M:[U' L' U,M2]		M U' L U M2 U' L' U M		
+E	GXN	Others	中	U' M:[U,r E' r']		U' M U r E' r' U' r E r' M' U	D' R' F R2 E' R2 E F' R D	D' R' F:[R2,E']
+E	GXO	E4	中	u' R':[E,R2]		u' R' E R2 E' R' u		
+E	GXP	E4	中	R' F:[R2,E']		R' F R2 E' R2 E F' R		
+E	GXQ	U8	下	R:[R E' R',U']		R R E' R' U' R E R' U R'		
+E	GXR	E4	左下	l' U' L':[E',L2]		l' U' L' E' L2 E L' U l	R2 F R2 E' R2 E F' R2	R2 F:[R2,E']
+E	GXS	E8	左下	[E,L' U L]		E L' U L E' L' U' L		
+E	GXT	S4	下	r U L':[S',L2]		r U L' S' L2 S L' U' r'		
+E	GXY	E8	上	[E',R' U' R]		E' R' U' R E R' U R		
+E	GXZ	S4	中	u R:[S,R2]		u R S R2 S' R u'		
+E	GYA	U8	中	E:[R E' R',U']		E R E' R' U' R E R' u		
+E	GYB	E4	下	R u' R':[E',R2]		R u' R' E' R2 E R' u R'		
+E	GYC	U8	中	[L E2 L',U]		L E2 L' U L E2 L' U'		
+E	GYD	E4	中	S' U L':[E,L2]		S' U L' E L2 E' L' U' S		
+E	GYE	S4	中/下	R U':[R2,S]		R U' R2 S R2 S' U R'		
+E	GYF	M8	中	[M,U' R' U]		M U' R' U M' U' R U		
+E	GYI	E4	中	U D' L':[E,L2]		U D' L' E L2 E' L' U' D		
+E	GYJ	M8	中	[M',U' R' U]		M' U' R' U M U' R U		
+E	GYK	E4	中	U L':[E,L2]		U L' E L2 E' L' U'		
+E	GYL	Others	中	L E2 L':[U,L E' L']		L E2 L' U L E' L' U' L E' L'	D M' U' R' U M U' R U D'	D:[M',U' R' U]
+E	GYM	E4	中	U D L':[E,L2]		U D L' E L2 E' L' U' D'	M2 U' R' U M2 U' R U	[M2,U' R' U]
+E	GYN	M8	中	U2:[M,U R' U']		U2 M U R' U' M' U R U' U2		
+E	GYO	E4	中	U D2 L':[E,L2]		U D2 L' E L2 E' L' U' D2	U R U R U' R' U' R' U' R	
+E	GYP	E4	中	S U L':[E,L2]		S U L' E L2 E' L' U' S'		
+E	GYQ	S4	中	U R:[S,R2]		U R S R2 S' R U'		
+E	GYR	E8	上	[R' U' R,E]		R' U' R E R' U R E'		
+E	GYS	E4	下	R U' R:[E,R2]		R U' R E R2 E' R U R'		
+E	GYT	U8	上	R':[U',R' E R]		R' U' R' E R U R' E' R R		
+E	GYW	E4	下	R U' R':[E',R2]		R U' R' E' R2 E R' U R'		
+E	GYX	E8	上	[R' U' R,E']		R' U' R E' R' U R E		
+E	GZA	U8	中	U:[U,L' E L]		U2 L' E L U' L' E' L U'		
+E	GZB	U8	中	S':[L' E L,U]		S' L' E L U L' E' L U' S		
+E	GZC	U8	中	[L' E L,U]		L' E L U L' E' L U'		
+E	GZD	M4	上	r' U':[M',U2]		r' U' M' U2 M U' r	F R' S R2 S' R' F'	F R':[S,R2]
+E	GZE	U8	中	U':[L' E L,U2]		U' L' E L U2 L' E' L U'		
+E	GZF	M8	中	[U R' U',M']		U R' U' M' U R U' M		
+E	GZI	E4	下/上	F:[R2,E]		F R2 E R2 E' F'		
+E	GZJ	M8	中	M':[M',U R' U']		M2 U R' U' M U R U' M	R2 F' R U' R' E R U R' E' F R2	R2 F':[R U' R',E]
+E	GZK	E4	中	u L:[E',L2]		u L E' L2 E L u'		
+E	GZL	E4	中	L F':[L2,E]		L F' L2 E L2 E' F L'	F R S' R2 S R F'	F R:[S',R2]
+E	GZM	M8	中	M:[U R' U',M2]		M U R' U' M2 U R U' M		
+E	GZN	Others	中	U M:[U',l' E l]		U M U' l' E l U l' E' l M' U'		
+E	GZO	E4	中	u' R:[E',R2]		u' R E' R2 E R u		
+E	GZP	Others	中	[R,U' S U]		R U' S U R' U' S' U	S' U2 L' E L U' L' E' L U' S	S' U:[U,L' E L]
+E	GZQ	E8	下	[E',R U' R']		E' R U' R' E R U R'		
+E	GZR	S4	中/上	l' U' R:[S,R2]		l' U' R S R2 S' R U l		
+E	GZS	U8	左下	L':[L' E L,U]		L' L' E L U L' E' L U' L		
+E	GZT	E4	下	r U R:[E,R2]		r U R E R2 E' R U' r'		
+E	GZW	E8	左上	[E,L U L']		E L U L' E' L U' L'		
+E	GZX	S4	中	u R':[S,R2]		u R' S R2 S' R' u'		

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- opt24：818 公式列表里「已选为最优」那一行的高光底。
+     ?attr 只出现在 solid 的颜色位（drawable 位用 ?attr 会崩，见 MEMORY.md）。 -->
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/app_lit_bg_1a6366f1" />
+    <corners android:radius="@dimen/fw_radius_8" />
+</shape>

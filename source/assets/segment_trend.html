@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>分段趋势</title>
+<style>
+    :root {
+        --bg: #F5F6F8;
+        --surface: #FFFFFF;
+        --fg: #1F2430;
+        --muted: #6B7280;
+        --border: #E3E6EB;
+        --grid: #EDEFF3;
+        --mem: #6366F1;
+        --mem-soft: rgba(99, 102, 241, 0.14);
+        --exe: #14B8A6;
+        --exe-soft: rgba(20, 184, 166, 0.14);
+        --chip: #EEF0F4;
+        --chip-on: #6366F1;
+        --chip-on-fg: #FFFFFF;
+    }
+    html.dark {
+        --bg: #14161B;
+        --surface: #1C1F26;
+        --fg: #E6E8EC;
+        --muted: #9AA0AC;
+        --border: #2A2E37;
+        --grid: #24272F;
+        --mem: #818CF8;
+        --mem-soft: rgba(129, 140, 248, 0.18);
+        --exe: #2DD4BF;
+        --exe-soft: rgba(45, 212, 191, 0.16);
+        --chip: #24272F;
+        --chip-on: #818CF8;
+        --chip-on-fg: #14161B;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+        margin: 0; padding: 0; height: 100%;
+        background: var(--bg); color: var(--fg);
+        font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+        -webkit-text-size-adjust: 100%;
+        transition: background .18s ease, color .18s ease;
+    }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ---------- 顶部统计 ---------- */
+    .stats {
+        display: flex; gap: 8px; padding: 12px 14px 6px;
+        flex: 0 0 auto;
+    }
+    .stat {
+        flex: 1 1 0; min-width: 0;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 12px; padding: 9px 10px;
+    }
+    .stat .k { font-size: 11px; color: var(--muted); letter-spacing: .02em; white-space: nowrap; }
+    .stat .v { font-size: 19px; font-weight: 700; margin-top: 3px; line-height: 1.15;
+               font-variant-numeric: tabular-nums; }
+    .stat .v small { font-size: 11px; font-weight: 500; color: var(--muted); margin-left: 2px; }
+    .stat.mem .v { color: var(--mem); }
+    .stat.exe .v { color: var(--exe); }
+
+    /* ---------- 区间切换 ---------- */
+    .chips { display: flex; gap: 6px; padding: 4px 14px 8px; flex: 0 0 auto; align-items: center; }
+    .chip {
+        border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+        font-size: 12px; padding: 5px 11px; border-radius: 999px; line-height: 1;
+        transition: all .15s ease;
+    }
+    .chip.on { background: var(--chip-on); border-color: var(--chip-on); color: var(--chip-on-fg); font-weight: 600; }
+    .spacer { flex: 1 1 auto; }
+    .legend { display: flex; gap: 10px; align-items: center; font-size: 11px; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 4px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+    /* ---------- 图表 ---------- */
+    .wrap { position: relative; flex: 1 1 auto; margin: 0 8px 10px; min-height: 0; }
+    .card {
+        position: absolute; inset: 0;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 14px; overflow: hidden;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+
+    .tip {
+        position: absolute; pointer-events: none; opacity: 0;
+        transform: translate(-50%, -108%);
+        background: rgba(28, 31, 38, .94); color: #F2F4F8;
+        border-radius: 9px; padding: 7px 9px; font-size: 11px; line-height: 1.45;
+        white-space: nowrap; transition: opacity .12s ease;
+        box-shadow: 0 6px 18px rgba(0,0,0,.28); z-index: 5;
+    }
+    .tip b { font-weight: 700; }
+    .tip .t-d { color: #AEB4C0; font-size: 10px; margin-bottom: 2px; }
+
+    /* ---------- 空态 ---------- */
+    .empty {
+        position: absolute; inset: 0; display: none;
+        flex-direction: column; align-items: center; justify-content: center;
+        text-align: center; padding: 24px; gap: 8px;
+    }
+    .empty .ico { font-size: 34px; opacity: .35; }
+    .empty .t1 { font-size: 14px; font-weight: 600; }
+    .empty .t2 { font-size: 12px; color: var(--muted); line-height: 1.6; max-width: 240px; }
+    body.empty-state .empty { display: flex; }
+    body.empty-state .wrap { display: none; }
+
+    /* ---------- 脚注 ---------- */
+    .note {
+        display: none;
+        /* .card 是 absolute inset:0 铺满 .wrap；有脚注时把卡片底部收进来 26px，
+           让 canvas 跟着变矮，脚注才有位置显示，也不会压住 x 轴标签 */
+        position: absolute; left: 10px; right: 10px; bottom: 4px;
+        font-size: 11px; line-height: 1.5; color: var(--muted);
+        text-align: center; pointer-events: none;
+    }
+    body.has-note .card { bottom: 26px; }
+</style>
+</head>
+<body>
+    <div class="stats">
+        <div class="stat mem">
+            <div class="k">平均记忆</div>
+            <div class="v" id="avgMem">--<small>s</small></div>
+        </div>
+        <div class="stat exe">
+            <div class="k">平均复原</div>
+            <div class="v" id="avgExe">--<small>s</small></div>
+        </div>
+        <div class="stat">
+            <div class="k">记录数</div>
+            <div class="v" id="cnt">--</div>
+        </div>
+    </div>
+
+    <div class="chips">
+        <button class="chip" data-range="20">最近 20</button>
+        <button class="chip on" data-range="50">最近 50</button>
+        <button class="chip" data-range="0">全部</button>
+        <div class="spacer"></div>
+        <div class="legend">
+            <span><i class="dot" style="background:var(--mem)"></i>记忆</span>
+            <span><i class="dot" style="background:var(--exe)"></i>复原</span>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div class="card"><canvas id="cv"></canvas></div>
+        <div class="tip" id="tip"></div>
+        <div class="note" id="note"></div>
+    </div>
+
+    <div class="empty">
+        <div class="ico">📈</div>
+        <div class="t1">暂无分段计时记录</div>
+        <div class="t2" id="emptyT2">在「计时设置」里打开分段计时，完成一次复原后，记忆与复原时长会画成这两条线。</div>
+    </div>
+
+<script>
+(function () {
+    'use strict';
+
+    var LX = window.LX = window.LX || {};
+
+    var rows = [];          // [{m: ms, e: ms, d: epochMs}]  时间正序
+    var range = 50;         // 0 = 全部
+    var excluded = 0;       // 因 DNF / +2 被排除的记录数
+    var cv = null, ctx = null, tip = null;
+    var points = [];        // 屏幕坐标 [{x, y1, y2, i}]
+
+    var COLOR = {};
+
+    function readColors() {
+        var cs = getComputedStyle(document.documentElement);
+        COLOR = {
+            grid: cs.getPropertyValue('--grid').trim(),
+            muted: cs.getPropertyValue('--muted').trim(),
+            mem: cs.getPropertyValue('--mem').trim(),
+            memSoft: cs.getPropertyValue('--mem-soft').trim(),
+            exe: cs.getPropertyValue('--exe').trim(),
+            exeSoft: cs.getPropertyValue('--exe-soft').trim(),
+            fg: cs.getPropertyValue('--fg').trim()
+        };
+    }
+
+    function visible() {
+        if (range > 0 && rows.length > range) {
+            return rows.slice(rows.length - range);
+        }
+        return rows;
+    }
+
+    function fmtSec(ms) {
+        return (ms / 1000).toFixed(2);
+    }
+
+    function fmtDate(ms) {
+        if (!ms) return '';
+        var d = new Date(ms);
+        var p = function (n) { return (n < 10 ? '0' : '') + n; };
+        return (d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+    }
+
+    function updateStats() {
+        var v = visible();
+        var n = v.length;
+        var sm = 0, se = 0;
+        for (var i = 0; i < n; i++) { sm += v[i].m; se += v[i].e; }
+        var avgMem = n ? sm / n : 0;
+        var avgExe = n ? se / n : 0;
+        document.getElementById('avgMem').innerHTML = n ? fmtSec(avgMem) + '<small>s</small>' : '--';
+        document.getElementById('avgExe').innerHTML = n ? fmtSec(avgExe) + '<small>s</small>' : '--';
+        document.getElementById('cnt').textContent = n ? String(n) : '--';
+    }
+
+    /** 取一个好看的纵轴上限（秒），4 段刻度 */
+    function niceMax(maxMs) {
+        var s = maxMs / 1000;
+        if (s <= 0) return 10;
+        var target = s * 1.12;
+        var pow = Math.pow(10, Math.floor(Math.log(target) / Math.LN10));
+        var norm = target / pow;
+        var step;
+        if (norm <= 1) step = 0.25;
+        else if (norm <= 2) step = 0.5;
+        else if (norm <= 4) step = 1;
+        else if (norm <= 8) step = 2;
+        else step = 2.5;
+        var unit = step * pow;
+        return Math.ceil(target / unit) * unit;
+    }
+
+    function resize() {
+        var wrap = document.querySelector('.wrap');
+        var card = document.querySelector('.card');
+        if (!wrap || !card) return;
+        var dpr = window.devicePixelRatio || 1;
+        var w = card.clientWidth, h = card.clientHeight;
+        if (w <= 0 || h <= 0) return;
+        cv.width = Math.round(w * dpr);
+        cv.height = Math.round(h * dpr);
+        cv.style.width = w + 'px';
+        cv.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw(w, h);
+    }
+
+    function draw(w, h) {
+        var v = visible();
+        points = [];
+        ctx.clearRect(0, 0, w, h);
+        if (!v.length) return;
+
+        var padL = 42, padR = 14, padT = 14, padB = 26;
+        var cw = Math.max(10, w - padL - padR);
+        var ch = Math.max(10, h - padT - padB);
+
+        var maxMs = 0;
+        for (var i = 0; i < v.length; i++) {
+            if (v[i].m > maxMs) maxMs = v[i].m;
+            if (v[i].e > maxMs) maxMs = v[i].e;
+        }
+        var topSec = niceMax(maxMs);
+        var topMs = topSec * 1000;
+
+        var yOf = function (ms) { return padT + ch - (ms / topMs) * ch; };
+        var xOf = function (i) {
+            if (v.length === 1) return padL + cw / 2;
+            return padL + (i / (v.length - 1)) * cw;
+        };
+
+        // 网格 + 纵轴刻度
+        ctx.font = '10px -apple-system, "Segoe UI", Roboto, sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'right';
+        var lines = 4;
+        for (var g = 0; g <= lines; g++) {
+            var val = topSec * g / lines;
+            var y = padT + ch - (g / lines) * ch;
+            ctx.strokeStyle = COLOR.grid;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padL, Math.round(y) + 0.5);
+            ctx.lineTo(padL + cw, Math.round(y) + 0.5);
+            ctx.stroke();
+            ctx.fillStyle = COLOR.muted;
+            ctx.fillText(val.toFixed(val < 10 ? 1 : 0) + 's', padL - 7, y);
+        }
+
+        // 横轴标签：首、中、尾
+        ctx.textAlign = 'center';
+        ctx.fillStyle = COLOR.muted;
+        var marks = [0, Math.floor((v.length - 1) / 2), v.length - 1];
+        for (var k = 0; k < marks.length; k++) {
+            var idx = marks[k];
+            if (idx < 0) continue;
+            var tx = xOf(idx);
+            ctx.fillText(String(idx + 1), tx, padT + ch + 13);
+        }
+
+        function lineOf(key, color, soft) {
+            // 面积
+            ctx.beginPath();
+            for (var i = 0; i < v.length; i++) {
+                var x = xOf(i), y = yOf(v[i][key]);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.lineTo(xOf(v.length - 1), padT + ch);
+            ctx.lineTo(xOf(0), padT + ch);
+            ctx.closePath();
+            ctx.fillStyle = soft;
+            ctx.fill();
+            // 折线
+            ctx.beginPath();
+            for (var j = 0; j < v.length; j++) {
+                var xx = xOf(j), yy = yOf(v[j][key]);
+                if (j === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
+            }
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        }
+
+        lineOf('m', COLOR.mem, COLOR.memSoft);
+        lineOf('e', COLOR.exe, COLOR.exeSoft);
+
+        // 点（点少时才画，否则糊）
+        if (v.length <= 60) {
+            for (var p = 0; p < v.length; p++) {
+                var px = xOf(p);
+                var py1 = yOf(v[p].m), py2 = yOf(v[p].e);
+                points.push({ x: px, y1: py1, y2: py2, i: p });
+                ctx.beginPath();
+                ctx.arc(px, py1, 2.6, 0, Math.PI * 2);
+                ctx.fillStyle = COLOR.mem;
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(px, py2, 2.6, 0, Math.PI * 2);
+                ctx.fillStyle = COLOR.exe;
+                ctx.fill();
+            }
+        } else {
+            // 点太多：只记录 x 位置供 tooltip 用
+            for (var q = 0; q < v.length; q++) {
+                points.push({ x: xOf(q), y1: yOf(v[q].m), y2: yOf(v[q].e), i: q });
+            }
+        }
+    }
+
+    function showTip(clientX, clientY) {
+        if (!points.length) return;
+        var rect = cv.getBoundingClientRect();
+        var x = clientX - rect.left;
+        var best = points[0], bestD = Math.abs(points[0].x - x);
+        for (var i = 1; i < points.length; i++) {
+            var d = Math.abs(points[i].x - x);
+            if (d < bestD) { bestD = d; best = points[i]; }
+        }
+        var v = visible();
+        var row = v[best.i];
+        if (!row) return;
+        tip.innerHTML = '<div class="t-d">' + fmtDate(row.d) + ' · 第 ' + (best.i + 1) + ' 次</div>'
+            + '<b style="color:var(--mem)">记忆 ' + fmtSec(row.m) + 's</b><br>'
+            + '<b style="color:var(--exe)">复原 ' + fmtSec(row.e) + 's</b>';
+        tip.style.left = best.x + 'px';
+        tip.style.top = Math.min(best.y1, best.y2) + 'px';
+        tip.style.opacity = '1';
+    }
+
+    function hideTip() { if (tip) tip.style.opacity = '0'; }
+
+    function setRange(r) {
+        range = r;
+        var chips = document.querySelectorAll('.chip');
+        for (var i = 0; i < chips.length; i++) {
+            chips[i].classList.toggle('on', String(r) === chips[i].getAttribute('data-range'));
+        }
+        updateStats();
+        hideTip();
+        resize();
+    }
+
+    function applyNote() {
+        var note = document.getElementById('note');
+        var t2 = document.getElementById('emptyT2');
+        if (note) {
+            if (excluded > 0) {
+                note.textContent = '已排除 ' + excluded + ' 条 DNF / +2 记录（罚时与未完成不计入分段趋势）';
+                note.style.display = 'block';
+            } else {
+                note.textContent = '';
+                note.style.display = 'none';
+            }
+        }
+        // 有脚注时给 body 挂 has-note，让 .card 底部收进来 26px
+        document.body.classList.toggle('has-note', excluded > 0);
+        if (t2) {
+            t2.textContent = excluded > 0
+                ? '有 ' + excluded + ' 条分段记录，但都是 DNF 或 +2 罚时，暂时画不出有效趋势。'
+                : '在「计时设置」里打开分段计时，完成一次复原后，记忆与复原时长会画成这两条线。';
+        }
+    }
+
+    LX.setData = function (data) {
+        try {
+            rows = (data && data.rows) ? data.rows.slice() : [];
+            excluded = (data && data.excluded) ? (data.excluded | 0) : 0;
+            var dark = !!(data && data.dark);
+            document.documentElement.classList.toggle('dark', dark);
+            document.body.classList.toggle('empty-state', rows.length === 0);
+            readColors();
+            applyNote();
+            updateStats();
+            resize();
+        } catch (e) {
+            document.body.classList.add('empty-state');
+        }
+    };
+
+    LX.showEmpty = function () {
+        rows = [];
+        excluded = 0;
+        applyNote();
+        document.body.classList.add('empty-state');
+    };
+
+    function boot() {
+        cv = document.getElementById('cv');
+        ctx = cv.getContext('2d');
+        tip = document.getElementById('tip');
+        readColors();
+
+        var chips = document.querySelectorAll('.chip');
+        for (var i = 0; i < chips.length; i++) {
+            chips[i].addEventListener('click', function () {
+                setRange(parseInt(this.getAttribute('data-range'), 10) || 0);
+            });
+        }
+
+        cv.addEventListener('touchstart', function (e) {
+            var t = e.touches && e.touches[0];
+            if (t) showTip(t.clientX, t.clientY);
+        }, { passive: true });
+        cv.addEventListener('touchmove', function (e) {
+            var t = e.touches && e.touches[0];
+            if (t) showTip(t.clientX, t.clientY);
+        }, { passive: true });
+        cv.addEventListener('touchend', hideTip);
+        cv.addEventListener('mousemove', function (e) { showTip(e.clientX, e.clientY); });
+        cv.addEventListener('mouseleave', hideTip);
+
+        var t = null;
+        window.addEventListener('resize', function () {
+            if (t) clearTimeout(t);
+            t = setTimeout(resize, 120);
+        });
+        window.addEventListener('orientationchange', function () {
+            setTimeout(resize, 260);
+        });
+
+        resize();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+</script>
+</body>
+</html>
