@@ -140,3 +140,32 @@ def derive(d):
 
 # 有 _soft（描边）变体的角色
 SOFTABLE = ('primary', 'success', 'danger', 'warning', 'info')
+
+# ---------- 深色分层（elevation）：卡片与页底必须能分开 ----------
+
+def _lin(v):
+    v /= 255.0
+    return v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+
+
+def contrast(a, b):
+    la = 0.2126 * _lin(a[1]) + 0.7152 * _lin(a[2]) + 0.0722 * _lin(a[3])
+    lb = 0.2126 * _lin(b[1]) + 0.7152 * _lin(b[2]) + 0.0722 * _lin(b[3])
+    x, y = la + 0.05, lb + 0.05
+    return max(x, y) / min(x, y)
+
+
+def ensure_separation(fg, bg, target=1.25, step=0.02, limit=0.40):
+    """把 fg 朝白色抬到与 bg 的对比度 >= target（只抬不压，幂等）。
+
+    深色 UI 里页底 #121417 与卡片 #1a1d21 只差 1.09:1 —— 卡片会"融"进页底，
+    信息层级消失（浅色靠阴影 + 描边还能分开，深色没有阴影可用）。
+    Material 的做法是给 surface 加 elevation 亮度阶；这里用「朝白色按步混色
+    直到够」的方式自动算出该抬多少，8 套 overlay 各自算各自的。
+    """
+    c = fg
+    t = 0.0
+    while contrast(c, bg) < target and t < limit:
+        t += step
+        c = mix((255, 255, 255, 255), fg, t)
+    return c

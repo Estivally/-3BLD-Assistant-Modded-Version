@@ -185,6 +185,103 @@ def radius_roles_audit():
     return role_of, unknown
 
 
+# ---------- 深色分层 / 图标对比 / 矢量裸色 ----------
+
+ELEV_MIN = 1.15      # 卡片与页底、描边与卡片的最小可分辨对比度
+
+
+def elevation_audit(ovs):
+    """每套 scheme 的三级层次：页底 → 卡片 → 描边。"""
+    out = {}
+    for name, items in ovs.items():
+        bg, card, line = items.get('app_background'), items.get('app_surface'), items.get('app_line')
+        if not (bg and card and line):
+            continue
+        b, c, l = over(color(bg), (255, 255, 255, 255)), over(color(card), over(color(bg), (255, 255, 255, 255))), color(line)
+        dark = name.endswith('.Night')
+        ok = contrast(c, b) >= ELEV_MIN and contrast(over(l, c), c) >= ELEV_MIN
+        out[name] = {
+            'bg': bg, 'card': card, 'line': line, 'dark': dark,
+            'card_vs_bg': round(contrast(c, b), 2),
+            'line_vs_card': round(contrast(over(l, c), c), 2),
+            # 浅色靠阴影 + 描边分层，卡片本就该是「白纸压在白底上」，只审计不判定
+            'ok': ok if dark else True,
+        }
+    return out
+
+
+ICON_PROPS = ('android:src', 'android:drawableLeft', 'android:drawableRight',
+              'android:drawableTop', 'android:drawableBottom', 'android:drawableStart',
+              'android:drawableEnd', 'app:srcCompat')
+
+
+def icon_drawables():
+    """布局里被当图标用的 drawable（含矢量/形状）。"""
+    used = {}
+    for f in glob.glob(os.path.join(RES, 'layout*', '*.xml')):
+        b = os.path.basename(f)
+        if b.startswith(SKIP_LAYOUT):
+            continue
+        for i, ln in enumerate(open(f, encoding='utf-8').read().split('\n'), 1):
+            for prop in ICON_PROPS:
+                m = re.search(re.escape(prop) + r'="@(?:drawable|mipmap)/([A-Za-z0-9_]+)"', ln)
+                if m:
+                    used.setdefault(m.group(1), []).append('%s:%d' % (b, i))
+    return used
+
+
+def icon_contrast_audit(ovs, schemes=('indigo', 'indigo.Night')):
+    """图标主色与卡片底的对比度（深色 <3:1 视为不易辨认）。"""
+    used = icon_drawables()
+    rows = []
+    for nm, refs in sorted(used.items()):
+        path = None
+        for d in ('drawable', 'drawable-anydpi-v21', 'drawable-v21', 'drawable-hdpi', 'mipmap-anydpi-v26'):
+            p = os.path.join(RES, d, nm + '.xml')
+            if os.path.exists(p):
+                path = p
+                break
+        if not path:
+            continue
+        txt = open(path, encoding='utf-8').read()
+        if '<vector' not in txt and '<shape' not in txt:
+            continue
+        attrs = re.findall(r'(?:android:)?(fillColor|strokeColor|color)="\?attr/(app_[A-Za-z0-9_]+)"', txt)
+        if not attrs:
+            continue
+        row = {'icon': nm, 'refs': len(refs), 'where': refs[:3], 'pairs': {}}
+        for sc in schemes:
+            if sc not in ovs:
+                continue
+            surface = over(color(ovs[sc]['app_surface']), over(color(ovs[sc]['app_background']), (255, 255, 255, 255)))
+            worst = None
+            for _prop, attr in attrs:
+                if attr not in ovs[sc]:
+                    continue
+                c = over(color(ovs[sc][attr]), surface)
+                k = round(contrast(c, surface), 2)
+                worst = k if worst is None else min(worst, k)
+            row['pairs'][sc] = worst
+        if row['pairs']:
+            rows.append(row)
+    return rows
+
+
+def vector_literals_audit():
+    """drawable 里的裸 hex（不经 attr 的硬编码色）。"""
+    hits = []
+    for f in glob.glob(os.path.join(RES, 'drawable*', '*.xml')):
+        b = os.path.basename(f)
+        for i, ln in enumerate(open(f, encoding='utf-8').read().split('\n'), 1):
+            for m in re.finditer(r'"(#[0-9a-fA-F]{6,8})"', ln):
+                hits.append({'file': b, 'line': i, 'value': m.group(1).lower()})
+    agg = {}
+    for h in hits:
+        agg[h['value']] = agg.get(h['value'], 0) + 1
+    return hits, agg
+
+
+
 def main():
     ovs = load_schemes()
     report = {'schemes': {}, 'drift': {}, 'bare_dp': {}, 'bare_hex': {}, 'ladder': {}}
@@ -251,6 +348,13 @@ def main():
                 hw.append('%s:%d' % (os.path.basename(f), i))
     report['hardcoded_white'] = hw
 
+    # 深色分层：卡片不能融进页底（阈值 ELEV_MIN）
+    report['elevation'] = elevation_audit(ovs)
+    report['icon_contrast'] = icon_contrast_audit(ovs)
+    lit_hits, lit_agg = vector_literals_audit()
+    report['vector_literals'] = {'total': len(lit_hits), 'kinds': lit_agg,
+                                 'top': ['%s:%d %s' % (h['file'], h['line'], h['value']) for h in lit_hits[:12]]}
+
     if '--json' in sys.argv:
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return
@@ -299,6 +403,27 @@ def main():
     print('  %d 处（主色按钮标签应已全部改走 ?attr/app_surface）' % len(report['hardcoded_white']))
     for x in report['hardcoded_white']:
         print('    %s' % x)
+
+    print('\n=== 深色分层（页底 → 卡片 → 描边，阈值 %.2f）===' % ELEV_MIN)
+    bad_elev = 0
+    for k, v in report['elevation'].items():
+        flag = ('OK ' if v['ok'] else 'LOW') if v['dark'] else '-- '
+        bad_elev += 0 if v['ok'] else 1
+        print('  %s %-13s 卡/页 %4.2f  线/卡 %4.2f   (%s / %s / %s)%s'
+              % (flag, k, v['card_vs_bg'], v['line_vs_card'], v['bg'], v['card'], v['line'],
+                 '' if v['dark'] else '   浅色靠阴影+描边'))
+    print('  低于阈值的深色方案：%d 套' % bad_elev)
+
+    print('\n=== 图标对比（布局里的矢量图标 vs 卡片底，阈值 3.0）===')
+    for row in report['icon_contrast']:
+        pairs = '  '.join('%s %.2f' % (s, v) for s, v in row['pairs'].items())
+        flag = 'LOW' if any(v < 3.0 for v in row['pairs'].values() if v) else 'OK '
+        print('  %s %-24s %2d 处  %s' % (flag, row['icon'], row['refs'], pairs))
+
+    print('\n=== drawable 裸 hex（未经 attr 的硬编码色）===')
+    print('  %d 处，%d 种色值' % (report['vector_literals']['total'], len(report['vector_literals']['kinds'])))
+    for k, n in sorted(report['vector_literals']['kinds'].items(), key=lambda x: -x[1]):
+        print('    %-10s %2d' % (k, n))
 
 
 if __name__ == '__main__':

@@ -35,7 +35,8 @@ import datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from ui_palette_spec import (THRESH, OVERRIDE, BG_ROLES, FG_ROLES,  # noqa: E402
-                             SEMANTIC_ALIAS, SOFTABLE, derive)
+                             SEMANTIC_ALIAS, SOFTABLE, derive,
+                             ensure_separation, contrast)
 import glob  # noqa: E402
 
 THEME = os.path.join(HERE, 'src', 'res', 'values', 'theme_schemes.xml')
@@ -170,6 +171,15 @@ def anchors_of(ov, ov_name=None):
         if a not in ov:
             raise SystemExit('overlay %s 缺少锚点 %s' % (ov, a))
         d[a] = parse_color(ovr[a] if a in ovr else ov[a][2])
+    # 深色分层：页底 → 卡片 → 描边 三级各抬一档，保证卡片不"融"进页底。
+    # 浅色不动（浅色靠阴影与描边已经能分开，页底 #fafafa / 卡片 #ffffff 本来就是这套风格）。
+    if ov_name and ov_name.endswith('.Night'):
+        # 只抬亮度，**保留原来的 alpha** —— mix() 的返回值首字节是混色比例，
+        # 若原样写出，app_surface 会变成 6% 透明（它还被当 textColor 用，直接隐形）。
+        card = ensure_separation(d['app_surface'], d['app_background'], 1.25)
+        d['app_surface'] = (255,) + card[1:]     # 这两个 attr 必须不透明
+        line = ensure_separation(d['app_line'], d['app_surface'], 1.20)
+        d['app_line'] = (255,) + line[1:]
     return d
 
 
@@ -274,6 +284,13 @@ def main():
             if old is None:
                 continue
             before.add(value.lower())
+            if dark and name in ('app_surface', 'app_line'):   # 深色分层：强制写入
+                nv = fmt_color(A['card'] if name == 'app_surface' else A['border'])
+                after.add(nv)
+                if nv != value.lower():
+                    changed += 1
+                    edits.append((lineno, indent, name, value, nv))
+                continue
             if name in POLARITY_OVERRIDE:                # 极性覆盖（浅/深各一值）
                 nv = POLARITY_OVERRIDE[name][1 if dark else 0]
                 after.add(nv)
