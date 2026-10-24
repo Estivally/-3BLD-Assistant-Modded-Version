@@ -31,6 +31,8 @@ KS_ALIAS="${KS_ALIAS:-androiddebugkey}"
 ORIGINAL="$ROOT/original.apk"
 SRC="$ROOT/src"
 JVM_TMP="-Djava.io.tmpdir=$ROOT/tmp"
+# 控制台是 GBK，opt17a 等脚本会 print ✅/⚠ 之类字符 —— 不设 utf-8 会 UnicodeEncodeError
+export PYTHONIOENCODING=utf-8
 
 cd "$ROOT"
 mkdir -p tmp
@@ -67,6 +69,8 @@ step "第 1.5 步 / 4：UI 框架 token / style（幂等，必须最后跑）"
 "$PY" opt19_nav_pill.py | tail -3
 "$PY" opt17a_tokens.py | tail -3
 "$PY" opt17b_styles.py | tail -3
+"$PY" opt20_palette_gen.py --write | tail -6
+"$PY" opt21_dimens_ladder.py --write | tail -4
 
 step "第 2 步 / 4：重打包"
 # ★ apktool 3.0.3 **不会清 src/build/**。那是它的暂存目录，上一次构建解出来的
