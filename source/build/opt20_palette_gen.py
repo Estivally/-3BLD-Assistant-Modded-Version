@@ -146,12 +146,30 @@ def parse(path):
     return lines, overlays
 
 
-def anchors_of(ov):
+# P1-3 主色锚点下探（indigo-500 #6366f1 → indigo-600 #4f46e5）：
+# 白字主按钮对比 4.47:1 → ≈6.4:1，越过 AA 4.5。只改这一个 item 的**取值**，
+# 172 个 attr 名一个不动；所有 app_lit_* 角色色随 derive() 自动重算。
+ANCHOR_OVERRIDE = {
+    'ThemeOverlay.App.Scheme.indigo': {'app_colorPrimary': '#ff4f46e5'},
+}
+
+# 提示文字色 app_text_hint：8 套 overlay 里都是 #61xxxxxx —— 38% alpha 的浅灰蓝，
+# 压在卡片上只有 1.32:1（浅色）/ 1.50:1（深色），远低于 AA 4.5，输入框 placeholder
+# 基本看不见。它是**极性色**（浅色要暗、深色要亮），所以浅/深各给一个中性值：
+#   浅 #8a000000 = 54% 黑 → 4.60:1
+#   深 #8affffff = 54% 白 → 5.88:1
+POLARITY_OVERRIDE = {
+    'app_text_hint': ('#8a000000', '#8affffff'),
+}
+
+
+def anchors_of(ov, ov_name=None):
     d = {}
+    ovr = ANCHOR_OVERRIDE.get(ov_name, {})
     for a in ANCHORS:
         if a not in ov:
             raise SystemExit('overlay %s 缺少锚点 %s' % (ov, a))
-        d[a] = parse_color(ov[a][2])
+        d[a] = parse_color(ovr[a] if a in ovr else ov[a][2])
     return d
 
 
@@ -247,7 +265,8 @@ def main():
     stats = []
     for ov_name, ov in overlays.items():
         dark = ov_name.endswith('.Night')
-        A = derive(dict(anchors_of(ov), __dark__=dark))
+        A = derive(dict(anchors_of(ov, ov_name), __dark__=dark))
+        ovr = ANCHOR_OVERRIDE.get(ov_name, {})
         before, after = set(), set()
         changed = 0
         for name, (lineno, indent, value) in ov.items():
@@ -255,6 +274,20 @@ def main():
             if old is None:
                 continue
             before.add(value.lower())
+            if name in POLARITY_OVERRIDE:                # 极性覆盖（浅/深各一值）
+                nv = POLARITY_OVERRIDE[name][1 if dark else 0]
+                after.add(nv)
+                if nv != value.lower():
+                    changed += 1
+                    edits.append((lineno, indent, name, value, nv))
+                continue
+            if name in ovr:                              # P1-3 锚点显式覆盖
+                nv = ovr[name]
+                after.add(nv)
+                if nv != value.lower():
+                    changed += 1
+                    edits.append((lineno, indent, name, value, nv))
+                continue
             if name in ANCHORS or name in role_map or name in SEMANTIC_ALIAS:
                 role = SEMANTIC_ALIAS.get(name) or role_map.get(name)
                 if role in (None, 'keep'):

@@ -71,6 +71,8 @@ step "第 1.5 步 / 4：UI 框架 token / style（幂等，必须最后跑）"
 "$PY" opt17b_styles.py | tail -3
 "$PY" opt20_palette_gen.py --write | tail -6
 "$PY" opt21_dimens_ladder.py --write | tail -4
+"$PY" opt22_dimens_rhythm.py --write | tail -4
+"$PY" opt23_on_primary.py --write | tail -4
 
 step "第 2 步 / 4：重打包"
 # ★ apktool 3.0.3 **不会清 src/build/**。那是它的暂存目录，上一次构建解出来的
